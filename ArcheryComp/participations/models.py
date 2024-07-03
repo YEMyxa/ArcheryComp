@@ -20,8 +20,6 @@ class Sportsman(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    last_name = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50)
     second_name = models.CharField(
         max_length=50,
         null=True,

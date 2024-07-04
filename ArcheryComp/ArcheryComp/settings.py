@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = reverse_lazy('competitions:main')
+LOGIN_REDIRECT_URL = '/' #reverse_lazy('competitions:main')
 LOGOUT_REDIRECT_URL = '/'
 
 

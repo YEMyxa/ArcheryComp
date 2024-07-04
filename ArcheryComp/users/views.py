@@ -24,10 +24,12 @@ class RegisterView(View):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('tasks:index')
+            print("ECCCCC")
+            return redirect('home_page')
         context = {
             'form': form
         }
+        print("NOOOO")
         return render(request, self.template_name, context)
     
 
@@ -61,7 +63,7 @@ class MyProfile(LoginRequiredMixin, View):
             
             # messages.success(request,'Your profile has been updated successfully')
             
-            return redirect('tasks:index')
+            return redirect('home_page')
         else:
             context = {
                 'user_form': user_form,

@@ -20,6 +20,16 @@ class Sportsman(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
+    first_name = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
+    last_name = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True
+    )
     second_name = models.CharField(
         max_length=50,
         null=True,
@@ -79,7 +89,7 @@ class PersonalParticipation(models.Model):
     sum_qualification = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return {self.place}
+        return f'{self.sportsman}, {self.competition}'
 
 
 class TeamParticipation(models.Model):
@@ -119,7 +129,7 @@ class TeamParticipation(models.Model):
     sum_qualification = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return self.place
+        return f'({self.sportsman_1}, {self.sportsman_2}, {self.sportsman_3}) {self.competition}'
 
 class MixedParticipation(models.Model):
     competition = models.ForeignKey(
@@ -151,4 +161,4 @@ class MixedParticipation(models.Model):
     sum_qualification = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return self.place
+        return f'({self.sportsman_M}, {self.sportsman_F}) {self.competition}'

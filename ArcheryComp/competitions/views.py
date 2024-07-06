@@ -91,7 +91,9 @@ class CompetitionDetailView(DetailView):
         for program in programs:
             response_html += f'<h2>{program.name}</h2><ul>'
             if program.team == 'Personal':
-                response_html += f'Здесь должна быть таблица личных участий'
+                participations = competition.participations.filter(program=program)
+                for participation in participations:
+                    response_html += f'{participation.sportsman} {participation.place} {participation.sum_qualification}</br>'
             elif program.team == 'Teams':
                 response_html += f'Здесь должна быть таблица командных участий'
             else:

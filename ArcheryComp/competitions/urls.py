@@ -4,7 +4,7 @@ from competitions import views
 app_name = 'competitions'
 
 urlpatterns = [
-    path('', views.index, name='main'),
+    path('', views.index, name='index'),
     path('classical/', views.ClassicalListView.as_view(), name='classical_list'),
     path('compound/', views.CompoundListView.as_view(), name='compound_list'),
     path('3D/', views.DListView.as_view(), name='D_list'),

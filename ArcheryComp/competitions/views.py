@@ -13,7 +13,7 @@ def index(request):
     D_list_url = reverse('competitions:D_list')
     acheri_list_url = reverse('competitions:acheri_list')
     asymmetrical_list_url = reverse('competitions:asymmetrical_list')
-    participation_list_url = reverse('participations:main')
+    participation_list_url = reverse('participations:index')
     html = (f"<h1>Список соревнований</h1>"
             f"<h2>Выбор дисциплины</h2>"
             f"<a href='{classical_list_url}'>Классический лук</a><br/>"

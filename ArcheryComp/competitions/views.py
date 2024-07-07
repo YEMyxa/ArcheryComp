@@ -4,10 +4,8 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponse
-# from .models import Project, Task
-from django.template.loader import render_to_string
-# from .forms import ProjectForm, TaskForm
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.urls import reverse
+from .models import Competition
 
 def index(request):
     classical_list_url = reverse('competitions:classical_list')
@@ -26,26 +24,84 @@ def index(request):
             f"<a href='{participation_list_url}'>Список участий</a>")
     return HttpResponse(html)
 
-def classical_list(request):
-    return HttpResponse("<h1>Cписок соревнований: Классический лук</h1>")
+from django.views.generic import ListView
 
-def compound_list(request):
-    return HttpResponse("<h1>Cписок соревнований: Блочный лук</h1>")
+def get_for_lists(self, request, *args, **kwargs):
+    competitions = self.get_queryset().order_by('started_at')
+    competitions_html = '<h1>Список соревнований</h1><ul>'
+    for competition in competitions:
+        competition_url = reverse('competitions:competition_detail', kwargs={'comp_id': competition.comp_id})
+        competitions_html += f'<li><a href="{competition_url}">{competition.title}</a></li>'
+    competitions_html += '</ul>'
+    return HttpResponse(competitions_html)
 
-def D_list(request):
-    return HttpResponse("<h1>Cписок соревнований: 3Д стрельба из лука</h1>")
+class ClassicalListView(ListView):
+    model = Competition
 
-def acheri_list(request):
-    return HttpResponse("<h1>Cписок соревнований: Ачери</h1>")
+    def get_queryset(self):
+        return Competition.objects.filter(discipline='Classical')
 
-def asymmetrical_list(request):
-    return HttpResponse("<h1>Cписок соревнований: Ассиметричный лук</h1>")
+    get = get_for_lists
 
-def competition_detail(request, competition_id):
-    return HttpResponse(f"Информация о соревновании {competition_id}")
+class CompoundListView(ListView):
+    model = Competition
 
+    def get_queryset(self):
+        return Competition.objects.filter(discipline='Compound')
 
-class IndexView(View):
-    template_name = 'competitions/index.html'
+    get = get_for_lists
+
+class DListView(ListView):
+    model = Competition
+
+    def get_queryset(self):
+        return Competition.objects.filter(discipline='3D')
+
+    get = get_for_lists
+
+class AcheriListView(ListView):
+    model = Competition
+
+    def get_queryset(self):
+        return Competition.objects.filter(discipline='Acheri')
+
+    get = get_for_lists
+
+class AsymmetricalListView(ListView):
+    model = Competition
+
+    def get_queryset(self):
+        return Competition.objects.filter(discipline='Asymmetrical')
+
+    get = get_for_lists
+
+from django.views.generic import DetailView
+
+class CompetitionDetailView(DetailView):
+    model = Competition
+    pk_url_kwarg = 'comp_id'
+
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        self.object = self.get_object()
+        competition = self.object
+        personal_participations = competition.participations.all()
+        team_participations = competition.team_participations.all()
+        mixed_participations = competition.mixed_participations.all()
+        participations_type = [personal_participations, team_participations, mixed_participations]
+        programs = set()
+        response_html = f'<h1>{competition.title}</h1><p>{competition.description}</p>'
+        for participations in participations_type:
+            for participation in participations:
+                programs.add(participation.program)
+        for program in programs:
+            response_html += f'<h2>{program.name}</h2><ul>'
+            if program.team == 'Personal':
+                participations = competition.participations.filter(program=program)
+                for participation in participations:
+                    response_html += f'{participation.sportsman} {participation.place} {participation.sum_qualification}</br>'
+            elif program.team == 'Teams':
+                response_html += f'Здесь должна быть таблица командных участий'
+            else:
+                response_html += f'Здесь должна быть таблица смешанных участий'
+            response_html += '</ul>'
+        return HttpResponse(response_html)

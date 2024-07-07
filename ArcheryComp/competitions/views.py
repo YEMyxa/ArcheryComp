@@ -46,5 +46,6 @@ def competition_detail(request, competition_id):
 
 
 class IndexView(View):
+    template_name = 'competitions/index.html'
     def get(self, request, *args, **kwargs):
-        return render(request, 'competitions/index.html')
+        return render(request, self.template_name)

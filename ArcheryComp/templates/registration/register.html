@@ -23,22 +23,22 @@ ArcheryComp Register
             {% csrf_token %}
 
             {% for field in form %}
-              <div class="row mx-1">
-                  <div class="col-xl-4 col-md-6 col-sm-12">
-                    <div class="row">{{ field.label_tag }}</div>
+                <div class="row justify-content-center mx-1 mt-2">
+                    <div class="col-xl-4 col-md-7 col-sm-12">
                     <div class="row">{{field}}</div>
-                  </div>
-              </div>
+                    </div>
+                </div>
           {% endfor %}
             
-            <div class="col-xl-4 col-md-6 col-sm-12 align-self-center">
-                <!-- <a type="submit" class="confirm-btn mt-3">
-                    Зарегистрироваться
-                </a> -->
-                <button type="submit" class="confirm-btn mt-3">Зарегистрироваться</button>
+          <div class="row justify-content-center mx-1 mt-4 mb-5">
+                <div class="col-xl-4 col-md-7 col-sm-12" >
+                    <div class="row">
+                        <button type="submit" class="confirm-btn">Зарегистрироваться</button>
+                    </div>
+                </div>
             </div>
+            
         </form>
     </div>
-        
 </div>
 {% endblock %}

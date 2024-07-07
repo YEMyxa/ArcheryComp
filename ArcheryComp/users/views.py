@@ -1,18 +1,19 @@
 from django.contrib.auth import authenticate, login
 from django.views import View
 from django.shortcuts import render, redirect
-from .forms import UserUpdateForm, ProfileUpdateForm, UserCreationForm
+from .forms import UserUpdateForm, ProfileUpdateForm, UserCreationForm, UserLoginForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.contrib.auth.views import LoginView
 
 
 class RegisterView(View):
     template_name = 'registration/register.html'
-
+    
     def get(self, request):
         context = {
             'form': UserCreationForm()
         }
+        print('in register "get" method')
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -24,7 +25,7 @@ class RegisterView(View):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect('tasks:index')
+            return redirect('profile')
         context = {
             'form': form
         }
@@ -61,7 +62,7 @@ class MyProfile(LoginRequiredMixin, View):
             
             # messages.success(request,'Your profile has been updated successfully')
             
-            return redirect('tasks:index')
+            return redirect('home_page')
         else:
             context = {
                 'user_form': user_form,
@@ -70,3 +71,11 @@ class MyProfile(LoginRequiredMixin, View):
             # messages.error(request,'Error updating you profile')
             
             return render(request, 'users/profile.html', context)
+        
+class MyLoginView(LoginView):
+    form_class = UserLoginForm
+    template_name = 'registration/login.html'
+    
+    
+    
+

@@ -1,0 +1,66 @@
+{% extends "ArcheryComp/base.html" %}
+
+{% block title %}
+ArcheryComp Log In
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Авторизация</h1>  
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+
+{% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<div class="row">
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    
+        {% for field in form %}
+            <div class="row justify-content-center mx-1 mt-2">
+                <div class="col-xl-4 col-md-7 col-sm-12">
+                  <div class="row">{{field}}</div>
+                </div>
+            </div>
+        {% endfor %}
+        
+        
+        <div class="row justify-content-center mx-1 mt-4 mb-5">
+            <div class="col-xl-4 col-md-7 col-sm-12">
+                <div class="row">
+                    <input type="submit" value="Авторизоваться" class="confirm-btn" />
+                    <input type="hidden" name="next" value="{{ next }}" />
+                </div>
+            </div>
+        </div>
+        
+        
+    </form>
+    
+</div>
+</div>
+<!--
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Lost password?</a></p>>
+-->
+{% endblock %}

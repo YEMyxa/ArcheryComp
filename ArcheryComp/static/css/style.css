@@ -8,6 +8,7 @@
     --text-color: #000000;
     --btn-text-color: #000000;
     --border-color: #9292927a;
+    --settings-i-color: #2020207a;
     --text-font-size: 18px;
     --text-h1-font-size: 30px;
     --text-h2-font-size: 30px;
@@ -106,14 +107,19 @@ a {
     transition: all 0.2s ease;
     text-align: center;
     text-decoration: none;
-    font-size: var(--text-font-size);
-    
+    font-size: var(--text-font-size);   
 }
+
 
 .main-btn:hover {
     border: 1px solid var(--border-color);
+    
 }
 
+.href-btn {
+    border-radius: 10px;
+    
+}
 
 
 .confirm-btn {
@@ -249,4 +255,24 @@ a {
     border-radius: 10px;
     border: 1px solid black;
     height: 35px;
+}
+
+.comp-list {
+    font-size: var(--text-font-size);
+}
+
+.comp-sidebar-elem {
+    border: 1px solid var(--bg-color1);
+    border-radius: 10px;
+    min-width: 200px;
+}
+.comp-sidebar-elem:hover {
+    border: 1px solid black;
+}
+
+.competition-list a:hover {
+    text-decoration: underline;
+}
+.hover-underline:hover {
+    text-decoration: underline;
 }

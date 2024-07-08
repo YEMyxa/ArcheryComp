@@ -1,0 +1,141 @@
+{% extends 'competitions/competitions_base.html' %}
+
+{% block title %}
+ArcheryComp Соревнования
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1> {{discipline}} - {{ competition.title }} </h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row mt-2 mb-4">
+        {{ competition.description }}
+    </div>
+    <div class="row">
+        {% for program in programs %}
+            <div class="row ">
+                <h3> {{ program.name }}
+                    <a href="#" class=""><i class="icon-cog"></i></a>
+                </h3>
+            </div>
+            <div class="row mb-5">
+                
+                {% if program.team == 'Personal' %}
+                    <div class="row">
+                        <div class="col">Спортсмен</div>
+                        <div class="col">Место</div>
+                        <div class="col">Место в квалификации</div>
+                        <div class="col">Сумма в квалификации</div>
+                        <div class="col-1"></div>
+                    </div>
+                    <div class="line" style="background-color: black;"></div>
+
+                    {% for sportsmen, place, place_qualification, sum_qualification, participation_id  in program.personal_program  %}
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="">{{ sportsmen }}</a>
+                        </div>
+                        <div class="col">{{ place }}</div>
+                        <div class="col">{{ place_qualification }}</div>
+                        <div class="col">{{ sum_qualification }}</div>
+                        <div class="col-1" style="width: fit-content;">
+                            <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}">
+                                <i class="icon-cog"></i>
+                            </a>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    {% endfor %}
+                    <div class="row">
+                        <a href="{% url 'competitions:add_personal' competition.comp_id program.id %}" class="">
+                            <i class="icon-plus"></i>
+                        </a>
+                    </div>
+                    
+
+                {% elif program.team == 'Teams' %}
+                    <div class="row">
+                        <div class="col">Команда</div>
+                        <div class="col">Место</div>
+                        <div class="col">Место в квалификации</div>
+                        <div class="col">Сумма в квалификации</div>
+                        <div class="col-1"></div>
+                    </div>
+                    <div class="line" style="background-color: black;"></div>
+
+                    {% for sportsmens, place, place_qualification, sum_qualification, participation_id in program.team_program  %}
+                    <div class="row">
+                        <div class="col">
+                            {% for sportsmen in sportsmens %}
+                                <div class="row">
+                                    <a href="#" class="">{{ sportsmen }}</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col">{{ place }}</div>
+                        <div class="col">{{ place_qualification }}</div>
+                        <div class="col">{{ sum_qualification }}</div>
+                        <div class="col-1" style="width: fit-content;">
+                            <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}">
+                                <i class="icon-cog"></i>
+                            </a>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    {% endfor %}
+                    <div class="row">
+                        <a href="{% url 'competitions:add_team' competition.comp_id program.id %}" class="">
+                            <i class="icon-plus"></i>
+                        </a>
+                    </div>
+
+
+
+
+                {% else %}
+                    <div class="row">
+                        <div class="col">Команда</div>
+                        <div class="col">Место</div>
+                        <div class="col">Место в квалификации</div>
+                        <div class="col">Сумма в квалификации</div>
+                        <div class="col-1"></div>
+                    </div>
+                    <div class="line" style="background-color: black;"></div>
+
+                    {% for sportsmen, place, sum_qualification, participation_id in program.mixed_program  %}
+                    <div class="row">
+                        <div class="col">{{ sportsmen }}</div>
+                        <div class="col">{{ place }}</div>
+                        <div class="col">{{ place_qualification }}</div>
+                        <div class="col">{{ sum_qualification }}</div>
+                        <div class="col-1" style="width: fit-content;">
+                            <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}">
+                                <i class="icon-cog"></i>
+                            </a>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    {% endfor %}
+                    <div class="row">
+                        <a href="{% url 'competitions:add_mixed' competition.comp_id program.id %}" class="">
+                            <i class="icon-plus"></i>
+                        </a>
+                    </div>
+
+                {% endif %}
+                
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

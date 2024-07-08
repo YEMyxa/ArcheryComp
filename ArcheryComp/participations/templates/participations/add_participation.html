@@ -1,0 +1,7 @@
+<h2>Добавить участие в соревнование {{ competition.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить участие</button>
+        <a href="javascript:history.back()">Отменить</a>
+    </form>

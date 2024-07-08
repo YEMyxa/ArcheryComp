@@ -77,7 +77,7 @@ class ProfileUpdateView(LoginRequiredMixin, View):
             }
             # messages.error(request,'Error updating you profile')
             
-            return render(request, 'users/profile.html', context)
+            return render(request, 'users/profile_update.html', context)
         
 class MyLoginView(LoginView):
     form_class = UserLoginForm

@@ -33,7 +33,7 @@ ArcheryComp Log In
 {% endif %}
 
 <div class="row">
-    <form method="post" action="{% url 'login' %}">
+    <form method="post" action="{% url 'users:login' %}">
     {% csrf_token %}
     
         {% for field in form %}
@@ -59,8 +59,4 @@ ArcheryComp Log In
     
 </div>
 </div>
-<!--
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>>
--->
 {% endblock %}

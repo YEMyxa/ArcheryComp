@@ -1,0 +1,36 @@
+{% extends 'ArcheryComp/base.html' %} 
+
+{% block title %}
+ArcheryComp Profile
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Личный кабинет</h1>  
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h3>Пользователь: {{ user_.username }}</h3>
+    <p>ФИО: {{ user_.last_name }} {{ user_.first_name }} {{ user_.profile.second_name }}</p>
+    <p> Уровень: {{ user_.profile.rank }}</p>
+    <!--Тут другие поля на усмотрение дизайнера ... -->
+</div>
+<!--username - id спорстмена ... -->
+<form action="{% url 'participations:user_part' user_.username %}">
+    <button type="submit">Участия пользователя</button>
+</form>
+{% if user.is_authenticated and user == user_ %}
+<form action="{% url 'users:profile' %}">
+    <button type="submit">Редактировать профиль</button>
+</form>
+{% endif %}
+
+
+{% endblock content %}

@@ -17,3 +17,8 @@ def index(request):
 class IndexView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'participations/index.html')
+    
+
+class UserParticipitionsView(View):
+    def get(self,  request, username, *args, **kwargs):
+        return render(request, 'participations/user_part.html', context={'username': username})

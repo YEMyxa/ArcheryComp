@@ -1,0 +1,8 @@
+perms: {'competitions.delete_competition', 'participations.view_mixedparticipation', 'participations.add_teamparticipation',
+'participations.delete_personalparticipation', 'participations.delete_teamparticipation', 'participations.change_mixedparticipation', 
+'competitions.add_program', 'participations.change_sportsman', 'competitions.add_competition', 
+'competitions.view_competition', 'participations.add_sportsman', 'competitions.view_program', 
+'participations.view_sportsman', 'participations.add_personalparticipation', 'participations.view_teamparticipation', 
+'participations.delete_sportsman', 'participations.change_personalparticipation', 'participations.view_personalparticipation', 
+'participations.delete_mixedparticipation', 'competitions.change_competition', 'participations.add_mixedparticipation', 
+'competitions.change_program', 'competitions.delete_program', 'participations.change_teamparticipation'}

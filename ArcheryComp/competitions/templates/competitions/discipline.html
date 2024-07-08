@@ -31,22 +31,27 @@ ArcheryComp Соревнования
                 </div>
                 
                 <!-- Edit competition -->
+                {% if perms.competitions.change_competition %}
                 <div class="col">
                     <a href="" class="">
                         <i class="icon-cog icon-settings"></i>
                     </a>
                 </div>
+                {% endif %}
                 
             </div>
         {% endfor %}
     
     {% endif %}
+
     <!-- Add competition -->
+    {% if perms.competitions.add_competition %}
     <div class="row comp-list mt-2">
         <a href="" class="">
             <i class="icon-plus"></i>
         </a>
     </div>
+    {% endif %}
 </div>
 
 {% endblock %}

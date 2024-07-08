@@ -58,22 +58,22 @@
                                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                             {% if user.is_authenticated %}
                                                 <li class="nav-item">
-                                                    <a href="{% url 'profile' %}" class="main-btn nav-auth-btn">Профиль {{ user.username }}</a>
+                                                    <a href="{% url 'users:profile_view' user.username %}" class="main-btn nav-auth-btn">Профиль {{ user.username }}</a>
                                                 </li>
             
                                                 <li class="nav-item">
-                                                    <form action="{% url 'logout' %}" method="post">
+                                                    <form action="{% url 'users:logout' %}" method="post">
                                                         {% csrf_token %}
                                                         <button type="submit" class="main-btn nav-auth-btn" style="width: 100%;">Выйти</button>
                                                     </form>
                                                 </li>
                                             {% else %}
                                                 <li class="nav-item ">
-                                                    <a href="{% url 'login' %}" class="main-btn nav-auth-btn">Вход</a>
+                                                    <a href="{% url 'users:login' %}" class="main-btn nav-auth-btn">Вход</a>
                                                 </li>
             
                                                 <li class="nav-item ">
-                                                    <a href="{% url 'register' %}" class="main-btn nav-auth-btn">Регистрация</a>
+                                                    <a href="{% url 'users:register' %}" class="main-btn nav-auth-btn">Регистрация</a>
                                                 </li>
                                             {% endif %}
                                         </ul>

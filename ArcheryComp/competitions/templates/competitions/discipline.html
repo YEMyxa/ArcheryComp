@@ -1,4 +1,4 @@
-{% extends 'competitions/competitions.html' %}
+{% extends 'competitions/competitions_base.html' %}
 
 {% block title %}
 ArcheryComp Соревнования
@@ -24,12 +24,29 @@ ArcheryComp Соревнования
 
         {% for competition in competitions %}
             <div class="row  mt-2 comp-list">
-                <a href="{% url 'competitions:competition_detail' competition.comp_id %}"
-                class="">{{ competition.title }}</a>
+                
+                <div class="col">
+                    <a href="{% url 'competitions:competition_detail' competition.comp_id %}"
+                class="comp-list-hover">{{ competition.title }}</a>
+                </div>
+                
+                <!-- Edit competition -->
+                <div class="col">
+                    <a href="" class="">
+                        <i class="icon-cog icon-settings"></i>
+                    </a>
+                </div>
+                
             </div>
         {% endfor %}
     
     {% endif %}
+    <!-- Add competition -->
+    <div class="row comp-list mt-2">
+        <a href="" class="">
+            <i class="icon-plus"></i>
+        </a>
+    </div>
 </div>
 
 {% endblock %}

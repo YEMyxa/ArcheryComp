@@ -61,6 +61,44 @@ class CompetitionDetailView(DetailView):
         mixed_participations = competition.mixed_participations.all()
         participations_type = [personal_participations, team_participations, mixed_participations]
         programs = set()
+        response_html = f'<h1>{competition.title}</h1><p>{competition.description}</p>'
+        for participations in participations_type:
+            for participation in participations:
+                programs.add(participation.program)
+        for program in programs:
+            response_html += f'<h2>{program.name}</h2><ul>'
+            if program.team == 'Personal':
+                participations = competition.participations.filter(program=program)
+                for participation in participations:
+                    update_url = reverse('competitions:update_personal',
+                                         kwargs={'comp_id': self.kwargs['comp_id'], 'participation_id': participation.id})
+                    response_html += (f'{participation.sportsman} {participation.place} {participation.sum_qualification} '
+                                      f'<a href="{update_url}">Изменить</a></br>')
+                add_url = reverse('competitions:add_personal',
+                                  kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
+                response_html += f'<a href="{add_url}">Добавить участие</a>'
+            elif program.team == 'Teams':
+                response_html += f'Здесь должна быть таблица командных участий</br>'
+                add_url = reverse('competitions:add_team',
+                                  kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
+                response_html += f'<a href="{add_url}">Добавить участие</a>'
+            else:
+                response_html += f'Здесь должна быть таблица смешанных участий</br>'
+                add_url = reverse('competitions:add_mixed',
+                                  kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
+                response_html += f'<a href="{add_url}">Добавить участие</a>'
+            response_html += '</ul>'
+        
+        return HttpResponse(response_html)
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        competition = self.object
+        personal_participations = competition.participations.all()
+        team_participations = competition.team_participations.all()
+        mixed_participations = competition.mixed_participations.all()
+        participations_type = [personal_participations, team_participations, mixed_participations]
+        programs = set()
         
         for participations in participations_type:
             for participation in participations:
@@ -77,7 +115,8 @@ class CompetitionDetailView(DetailView):
                     program.personal_program.append([participation.sportsman,
                                                      participation.place,
                                                      participation.place_qualification,
-                                                     participation.sum_qualification])
+                                                     participation.sum_qualification,
+                                                     participation.id])
             # Аналогично Personal     
             elif program.team == 'Teams':
                 for participation in participations:
@@ -86,16 +125,18 @@ class CompetitionDetailView(DetailView):
                                                   participation.sportsman_3),
                                                   participation.place,
                                                   participation.place_qualification,
-                                                  participation.sum_qualification])
+                                                  participation.sum_qualification,
+                                                  participation.id])
             else:
                 for participation in participations:
                     program.mixed_program.append([(participation.sportsman_M,
                                                    participation.sportsman_F),
                                                    participation.place,
                                                    participation.place_qualification,
-                                                   participation.sum_qualification])
+                                                   participation.sum_qualification,
+                                                   participation.id])
             
         return render(request, self.template_name, context={'competition':competition,
                                                             'programs': programs,
-                                                            })
+                                                            'discipline':competition.DISCIPLINE_CHOICES_DICT[competition.discipline]})
         

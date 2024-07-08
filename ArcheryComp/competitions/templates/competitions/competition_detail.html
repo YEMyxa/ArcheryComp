@@ -1,0 +1,89 @@
+{% extends 'competitions/competitions.html' %}
+
+{% block title %}
+ArcheryComp Соревнования
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>{{ competition.title }} </h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row mt-2 mb-4">
+        {{ competition.description }}
+    </div>
+    <div class="row">
+        {% for program in programs %}
+            <div class="row ">
+                <h3> {{ program.name }} </h3>
+            </div>
+            <div class="row mb-5">
+                {% if program.team == 'Personal' %}
+                    <div class="row">
+                        <div class="col">Спортсмен</div>
+                        <div class="col">Место</div>
+                        <div class="col">Место в квалификации</div>
+                        <div class="col">Сумма в квалификации</div>
+                    </div>
+                    <div class="line"></div>
+
+                    {% for sportsmen, place, place_qualification, sum_qualification in program.personal_program  %}
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="">{{ sportsmen }}</a>
+                        </div>
+                        <div class="col">{{ place }}</div>
+                        <div class="col">{{ place_qualification }}</div>
+                        <div class="col">{{ sum_qualification }}</div>
+                    </div>
+                    {% endfor %}
+                    
+
+                {% elif program.team == 'Teams' %}
+                    <div class="row">
+                        <div class="col">Команда</div>
+                        <div class="col">Место</div>
+                        <div class="col">Сумма в квалификации</div>
+                    </div>
+                    <div class="line"></div>
+
+                    {% for sportsmens, place, sum_qualification in program.team_program  %}
+                    <div class="row">
+                        <div class="col">{{ sportsmens }}</div>
+                        <div class="col">{{ place }}</div>
+                        <div class="col">{{ sum_qualification }}</div>
+                    </div>
+                    {% endfor %}
+
+                {% else %}
+                    <div class="row">
+                        <div class="col">Команда</div>
+                        <div class="col">Место</div>
+                        <div class="col">Сумма в квалификации</div>
+                    </div>
+                    <div class="line"></div>
+
+                    {% for sportsmen, place, sum_qualification in program.mixed_program  %}
+                    <div class="row">
+                        <div class="col">{{ sportsmen }}</div>
+                        <div class="col">{{ place }}</div>
+                        <div class="col">{{ sum_qualification }}</div>
+                    </div>
+                    {% endfor %}
+
+                {% endif %}
+                
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

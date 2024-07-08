@@ -250,3 +250,23 @@ a {
     border: 1px solid black;
     height: 35px;
 }
+
+.comp-list {
+    font-size: var(--text-font-size);
+}
+.comp-list:hover {
+    text-decoration: underline;
+}
+
+.comp-sidebar-elem {
+    border: 1px solid var(--bg-color1);
+    border-radius: 10px;
+    min-width: 200px;
+}
+.comp-sidebar-elem:hover {
+    border: 1px solid black;
+}
+
+.competition-list a:hover {
+    text-decoration: underline;
+}

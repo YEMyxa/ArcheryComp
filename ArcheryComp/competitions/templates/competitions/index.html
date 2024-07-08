@@ -24,19 +24,19 @@ ArcheryComp Соревнования
         </div>
         <div class="row comp-types">
             <div class="col text-center comp-type p-1 m-1">
-                    <a href="#">Классический лук</a>
+                    <a href="{% url 'competitions:classical_list' %}">Классический лук</a>
             </div>
             <div class="col text-center comp-type p-1 m-1">
-                    <a href="#">Блочный лук</a>
+                    <a href="{% url 'competitions:compound_list' %}">Блочный лук</a>
             </div>
             <div class="col text-center comp-type p-1 m-1">
-                    <a href="#">3Д стрельба из лука</a>
+                    <a href="{% url 'competitions:D_list' %}">3Д стрельба из лука</a>
             </div>
             <div class="col text-center comp-type p-1 m-1">
-                    <a href="#">Ачери</a>
+                    <a href="{% url 'competitions:acheri_list' %}">Ачери</a>
             </div>
             <div class="col text-center comp-type p-1 m-1">
-                    <a href="#">Ассиметричный лук</a>
+                    <a href="{% url 'competitions:asymmetrical_list' %}">Ассиметричный лук</a>
             </div>
         </div>
     </div>

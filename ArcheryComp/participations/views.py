@@ -9,10 +9,6 @@ from django.template.loader import render_to_string
 # from .forms import ProjectForm, TaskForm
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
-def index(request):
-    html = f"<h1>Список участий</h1>"
-    return HttpResponse(html)
-
 
 class IndexView(View):
     def get(self, request, *args, **kwargs):

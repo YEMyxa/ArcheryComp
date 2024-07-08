@@ -1,0 +1,35 @@
+{% extends 'competitions/competitions.html' %}
+
+{% block title %}
+ArcheryComp Соревнования
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Список соревнований - {{ discipline }}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">{{ foo_res }}</div>
+    {% if competitions|length == 0 %}
+    <div class="row comp-list mt-2">Соревнований нет</div>
+    {% else %}
+
+        {% for competition in competitions %}
+            <div class="row  mt-2 comp-list">
+                <a href="{% url 'competitions:competition_detail' competition.comp_id %}"
+                class="">{{ competition.title }}</a>
+            </div>
+        {% endfor %}
+    
+    {% endif %}
+</div>
+
+{% endblock %}

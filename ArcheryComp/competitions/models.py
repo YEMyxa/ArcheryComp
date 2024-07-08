@@ -8,6 +8,7 @@ class Competition(models.Model):
         ('Acheri', 'Ачери'),
         ('Asymmetrical', 'Ассиметричный лук')
     ]
+    DISCIPLINE_CHOICES_DICT = {k[0]:k[1] for k in DISCIPLINE_CHOICES}
     STATUS_CHOICES = [
         ('Championship', 'Чемпионат России'),
         ('Cup', 'Кубок России'),
@@ -15,7 +16,7 @@ class Competition(models.Model):
         ('Vseros', 'Всероссийские соревнования')
     ]
 
-    comp_id = models.AutoField(primary_key=True)
+    comp_id = models.IntegerField(primary_key=True)
     title = models.CharField(
         max_length=250
     )

@@ -15,13 +15,14 @@ urlpatterns = [
         path('', views.CompetitionDetailView.as_view(), name='competition_detail'),
         path('/<int:program_id>/', include([
             path('add_personal/', views_p.PersonalParticipationCreateView.as_view(), name='add_personal'),
-            path('add_team/', views_p.TeamParticipationCreateView.as_view(), name='add_team'),
-            path('add_mixed/', views_p.MixedParticipationCreateView.as_view(), name='add_mixed'),
+            path('add_team/',     views_p.TeamParticipationCreateView.as_view(),     name='add_team'),
+            path('add_mixed/',    views_p.MixedParticipationCreateView.as_view(),    name='add_mixed'),
             ])),
         path('/<int:participation_id>/', include([
             path('update_personal/', views_p.PersonalParticipationUpdateView.as_view(), name='update_personal'),
-            path('update_team/', views_p.TeamParticipationUpdateView.as_view(), name='update_team'),
-            path('update_mixed/', views_p.MixedParticipationUpdateView.as_view(), name='update_mixed'),
-        ]))
+            path('update_team/',     views_p.TeamParticipationUpdateView.as_view(),     name='update_team'),
+            path('update_mixed/',    views_p.MixedParticipationUpdateView.as_view(),    name='update_mixed'),
+        ])),
+        path('add_program/', views.IndexView.as_view(),name='add_program')
     ])),
 ]

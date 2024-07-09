@@ -1,0 +1,55 @@
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Добавление участия
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1> {{ object.__str__ }} - {{ object.title }}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row mt-2">
+        <h3>Добавить участие в соревнование {{ form.temp }} 1</h3>
+    </div>
+
+    <div class="row">
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="row justify-content-start mx-1 mt-2">
+                    <div class="col-xl-4 col-md-7 col-sm-12">
+                        <div class="row">{{field.label}}</div>
+                        <div class="row">{{field}}</div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            
+            <div class="row justify-content-start mx-1 mt-4">
+                <div class="col-xl-4 col-md-7 col-sm-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="submit" class="confirm-btn" style="width: 100%;">Добавить участие</button>
+                        </div>
+                        <div class="col-6">
+                            <a href="#" class="confirm-btn">Отменить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    
+
+{% endblock %}

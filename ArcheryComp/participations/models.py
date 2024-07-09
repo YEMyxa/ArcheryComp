@@ -58,13 +58,6 @@ class Sportsman(models.Model):
         null=True,
         blank=True
     )
-    user = models.OneToOneField(
-        User,
-        related_name='data',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
 
     def __str__(self):
         return f'{self.last_name} {self.first_name}'

@@ -32,23 +32,23 @@ class DisciplineListView(ListView):
         competitions_html += '</ul>'
         return HttpResponse(competitions_html)
 
-class ClassicalListView(CompetitionListView):
+class ClassicalListView(DisciplineListView):
     def get_queryset(self):
         return Competition.objects.filter(discipline='Classical')
 
-class CompoundListView(CompetitionListView):
+class CompoundListView(DisciplineListView):
     def get_queryset(self):
         return Competition.objects.filter(discipline='Compound')
 
-class DListView(CompetitionListView):
+class DListView(DisciplineListView):
     def get_queryset(self):
         return Competition.objects.filter(discipline='3D')
 
-class AcheriListView(CompetitionListView):
+class AcheriListView(DisciplineListView):
     def get_queryset(self):
         return Competition.objects.filter(discipline='Acheri')
 
-class AsymmetricalListView(CompetitionListView):
+class AsymmetricalListView(DisciplineListView):
     def get_queryset(self):
         return Competition.objects.filter(discipline='Asymmetrical')
 

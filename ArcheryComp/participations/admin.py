@@ -1,15 +1,15 @@
 from django.contrib import admin
-from .models import Sportsman, PersonalParticipation, TeamParticipation, MixedParticipation
+from .models import PersonalParticipation, TeamParticipation, MixedParticipation
 
 
-@admin.register(Sportsman)
-class SportsmanAdmin(admin.ModelAdmin):
-    list_display = (
-        'id', 'last_name', 'first_name', 'second_name', 'sex', 'date_of_birth', 'rank', 'region', 'organization',
-        'coach')
-    list_filter = ('sex', 'rank')
-    search_fields = ('id', 'second_name', 'date_of_birth', 'region', 'organization')
-    list_editable = ('rank', 'region', 'organization', 'coach')
+# @admin.register(Sportsman)
+# class SportsmanAdmin(admin.ModelAdmin):
+#     list_display = (
+#         'id', 'last_name', 'first_name', 'second_name', 'sex', 'date_of_birth', 'rank', 'region', 'organization',
+#         'coach')
+#     list_filter = ('sex', 'rank')
+#     search_fields = ('id', 'second_name', 'date_of_birth', 'region', 'organization')
+#     list_editable = ('rank', 'region', 'organization', 'coach')
 
 
 @admin.register(PersonalParticipation)

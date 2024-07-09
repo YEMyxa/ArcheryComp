@@ -36,7 +36,7 @@ ArcheryComp Profile
     <!--username - id спорстмена ... -->
     <div class="row mx-1 mt-2">
         <div class="col-xl-4 col-md-7 col-sm-12">
-            <a href="{% url 'participations:profile' user_.profile.sportsman.id %}" class="confirm-btn">Участия пользователя</a>
+            <a href="{% url 'participations:profile' user_.username %}" class="confirm-btn">Участия пользователя</a>
         </div>
     </div>
     {% if user.is_authenticated and user == user_ %}

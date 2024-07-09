@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from participations.models import Sportsman
 
 class Profile(models.Model):
     SEX_CHOICES = [
@@ -28,14 +27,6 @@ class Profile(models.Model):
         related_name='profile'
     )
 
-    sportsman = models.OneToOneField(
-        Sportsman,
-        related_name='profile',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True
-    )
-
     second_name = models.CharField(
         max_length=50,
         null=True,
@@ -59,13 +50,13 @@ class Profile(models.Model):
     )
     region = models.CharField(max_length=250, null=True, blank=True)
 
-    organization = models.CharField( #в будущем может быть ForeigKey
+    organization = models.CharField(
         max_length=250,
         null=True,
         blank=True,
     )
     
-    coach = models.CharField( #в будущем может быть ForeigKey
+    coach = models.CharField(
         max_length=150,
         null=True,
         blank=True

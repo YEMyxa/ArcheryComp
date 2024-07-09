@@ -1,66 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from competitions.models import Competition, Program
-
-class Sportsman(models.Model):
-    SEX_CHOICES = [
-        ('M', 'Мужчины/Юноши'),
-        ('F', 'Женщины/Девушки')
-    ]
-    RANK_CHOICES = [
-        ('3y', '3-й юношеский'),
-        ('2y', '2-й юношеский'),
-        ('1y', '1-й юношеский'),
-        ('3', '3-й спортивный'),
-        ('2', '2-й спортивный'),
-        ('1', '1-й спортивный'),
-        ('CMS', 'КМС'),
-        ('MS', 'МС'),
-        ('IMS', 'МСМК'),
-        ('Coach', 'Организатор')
-    ]
-
-    id = models.IntegerField(primary_key=True)
-    first_name = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True
-    )
-    last_name = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True
-    )
-    second_name = models.CharField(
-        max_length=50,
-        null=True,
-        blank=True
-    )
-    sex = models.CharField(
-        max_length=10,
-        choices=SEX_CHOICES
-    )
-    date_of_birth = models.DateField()
-    rank = models.CharField(
-        max_length=10,
-        choices=RANK_CHOICES,
-        null=True,
-        blank=True
-    )
-    region = models.CharField(max_length=250)
-    organization = models.CharField( #в будущем может быть ForeigKey
-        max_length=250,
-        null=True,
-        blank=True
-    )
-    coach = models.CharField( #в будущем может быть ForeigKey
-        max_length=150,
-        null=True,
-        blank=True
-    )
-
-    def __str__(self):
-        return f'{self.last_name} {self.first_name}'
+from users.models import Profile
+from django.contrib.auth.models import User
 
 class PersonalParticipation(models.Model):
     competition = models.ForeignKey(
@@ -74,7 +16,7 @@ class PersonalParticipation(models.Model):
         on_delete=models.RESTRICT
     )
     sportsman = models.ForeignKey(
-        Sportsman,
+        User,
         related_name='participations',
         on_delete=models.CASCADE
     )
@@ -98,21 +40,21 @@ class TeamParticipation(models.Model):
         on_delete=models.RESTRICT
     )
     sportsman_1 = models.ForeignKey(
-        Sportsman,
+        User,
         related_name='team_participations_1',
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
     sportsman_2 = models.ForeignKey(
-        Sportsman,
+        User,
         related_name='team_participations_2',
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
     sportsman_3 = models.ForeignKey(
-        Sportsman,
+        User,
         related_name='team_participations_3',
         on_delete=models.SET_NULL,
         null=True,
@@ -137,14 +79,14 @@ class MixedParticipation(models.Model):
         on_delete=models.RESTRICT
     )
     sportsman_M = models.ForeignKey(
-        Sportsman,
+        User,
         related_name='mixed_participations_M',
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
     sportsman_F = models.ForeignKey(
-        Sportsman,
+        User,
         related_name='mixed_participations_F',
         on_delete=models.SET_NULL,
         null=True,

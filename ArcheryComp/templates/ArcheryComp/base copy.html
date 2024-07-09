@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'img/favicon.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontello.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <!-- Общий заголовок для всех страниц --> 
+        <div class="container-fluid ">
+            <!-- Naviagtion panel -->    
+            {% include 'ArcheryComp/nav.html' only with param='Django' %}
+                
+            <div class="line"></div>
+        </div>
+        
+        
+    </header>
+    <div class="sub-header">
+        {% block header %}
+        {% endblock %}
+    </div>
+
+    <main>
+        {% if user.is_authenticated %}
+    zdes
+        <li class="nav-item">
+            <form action="{% url 'profile' %}">
+                <button type="submit" class="auth-btn">Профиль {{ user.username }} (изм)</button>
+            </form>
+        </li>
+
+        <li class="nav-item ">
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="auth-btn">Log Out</button>
+            </form>
+        </li>
+    {% else %}
+    tut
+        <li class="nav-item ">
+            <a href="{% url 'login' %}" class="auth-btn">Log In</a>
+        </li>
+
+        <li class="nav-item ">
+            <a href="{% url 'register' %}" class=" auth-btn">Register</a>
+        </li>
+    {% endif %}
+
+    
+        {% block content %}
+        <!-- Основное содержимое страницы -->
+        {% endblock %}
+    </main>
+    
+    
+    <footer>
+        <!-- Общий футер для всех страниц -->
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

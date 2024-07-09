@@ -1,6 +1,43 @@
-<h2>Изменение участия: {{ participation.sportsman }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Сохранить</button>
-    </form>
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Изменение участия
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1> {{object.competition.discipline}} - {{ object.competition.title }} net</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-2">
+        <h3>Изменение участие</h3>
+    </div>
+    <div class="row">
+        <form method="post">
+            <div class="row">
+                {% csrf_token %}
+                
+                {{ form.as_p }}
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="confirm-btn">Сохранить</button>
+                </div>
+                <div class="col">
+                    <a href="javascript:history.back()" class="confirm-btn">Отменить</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+</div>
+
+
+    {% endblock %}

@@ -1,28 +1,27 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
+from django.views import View
+from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponse
 from django.urls import reverse
 from .models import Competition
 
-def index(request):
-    classical_list_url = reverse('competitions:classical_list')
-    compound_list_url = reverse('competitions:compound_list')
-    D_list_url = reverse('competitions:D_list')
-    acheri_list_url = reverse('competitions:acheri_list')
-    asymmetrical_list_url = reverse('competitions:asymmetrical_list')
-    sportsmans_list_url = reverse('participations:sportsmans_list')
-    html = (f"<h1>Список соревнований</h1>"
-            f"<h2>Выбор дисциплины</h2>"
-            f"<a href='{classical_list_url}'>Классический лук</a><br/>"
-            f"<a href='{compound_list_url}'>Блочный лук</a><br/>"
-            f"<a href='{D_list_url}'>3Д стрельба из лука</a><br/>"
-            f"<a href='{acheri_list_url}'>Ачери</a><br/>"
-            f"<a href='{asymmetrical_list_url}'>Ассиметричный лук</a><br/>"
-            f"<a href='{sportsmans_list_url}'>Список спортсменов</a>")
-    return HttpResponse(html)
+class IndexView(View):
+    template_name = 'competitions/index.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
 
 from django.views.generic import ListView
 
-class CompetitionListView(ListView):
+class DisciplineListView(ListView):
     model = Competition
+    template_name = 'competitions/discipline.html'
+    discipline = ''
+
+    def get_queryset(self):
+        return Competition.objects.filter(discipline=self.discipline)
 
     def get(self, request, *args, **kwargs):
         competitions = self.get_queryset().order_by('started_at')
@@ -57,7 +56,9 @@ from django.views.generic import DetailView
 
 class CompetitionDetailView(DetailView):
     model = Competition
+    template_name = 'competitions/competition_detail.html'
     pk_url_kwarg = 'comp_id'
+
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -67,36 +68,43 @@ class CompetitionDetailView(DetailView):
         mixed_participations = competition.mixed_participations.all()
         participations_type = [personal_participations, team_participations, mixed_participations]
         programs = set()
-        response_html = f'<h1>{competition.title}</h1><p>{competition.description}</p>'
+
         for participations in participations_type:
             for participation in participations:
                 programs.add(participation.program)
+
         for program in programs:
-            response_html += f'<h2>{program.name}</h2><ul>'
+            program.personal_program = []
+            program.team_program = []
+            program.mixed_program = []
+
+            participations = competition.participations.filter(program=program)
             if program.team == 'Personal':
-                participations = competition.participations.filter(program=program)
                 for participation in participations:
-                    update_url = reverse('competitions:update_personal',
-                                         kwargs={'comp_id': self.kwargs['comp_id'], 'participation_id': participation.id})
-                    response_html += (f'{participation.sportsman} {participation.place} {participation.sum_qualification} '
-                                      f'<a href="{update_url}">Изменить</a></br>')
-                add_url = reverse('competitions:add_personal',
-                                  kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
-                response_html += f'<a href="{add_url}">Добавить участие</a>'
+                    program.personal_program.append([participation.sportsman,
+                                                     participation.place,
+                                                     participation.place_qualification,
+                                                     participation.sum_qualification,
+                                                     participation.id])
+            # Аналогично Personal
             elif program.team == 'Teams':
-                participations = competition.team_participations.filter(program=program)
                 for participation in participations:
-                    update_url = reverse('competitions:update_team',
-                                     kwargs={'comp_id': self.kwargs['comp_id'], 'participation_id': participation.id})
-                    response_html += (f'({participation.sportsman_1} {participation.sportsman_2} {participation.sportsman_3}) {participation.place} {participation.sum_qualification} '
-                                  f'<a href="{update_url}">Изменить</a></br>')
-                add_url = reverse('competitions:add_team',
-                                  kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
-                response_html += f'<a href="{add_url}">Добавить участие</a>'
+                    program.team_program.append([(participation.sportsman_1,
+                                                  participation.sportsman_2,
+                                                  participation.sportsman_3),
+                                                  participation.place,
+                                                  participation.place_qualification,
+                                                  participation.sum_qualification,
+                                                  participation.id])
             else:
-                response_html += f'Здесь должна быть таблица смешанных участий</br>'
-                add_url = reverse('competitions:add_mixed',
-                                  kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
-                response_html += f'<a href="{add_url}">Добавить участие</a>'
-            response_html += '</ul>'
-        return HttpResponse(response_html)
+                for participation in participations:
+                    program.mixed_program.append([(participation.sportsman_M,
+                                                   participation.sportsman_F),
+                                                   participation.place,
+                                                   participation.place_qualification,
+                                                   participation.sum_qualification,
+                                                   participation.id])
+
+        return render(request, self.template_name, context={'competition':competition,
+                                                            'programs': programs,
+                                                            'discipline':competition.DISCIPLINE_CHOICES_DICT[competition.discipline]})

@@ -1,0 +1,52 @@
+{% extends 'competitions/competitions_base.html' %}
+
+{% block title %}
+ArcheryComp Соревнования
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Список соревнований - {{ discipline }}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    
+    {% if competitions|length == 0 %}
+    <div class="row comp-list mt-2">Соревнований нет</div>
+    {% else %}
+
+        {% for competition in competitions %}
+            <div class="row  mt-2 comp-list">
+                
+                <div class="col">
+                    <a href="{% url 'competitions:competition_detail' competition.comp_id %}"
+                class="comp-list-hover">{{ competition.title }}</a>
+                </div>
+                
+                <!-- Edit competition -->
+                <div class="col">
+                    <a href="" class="">
+                        <i class="icon-cog icon-settings"></i>
+                    </a>
+                </div>
+                
+            </div>
+        {% endfor %}
+    
+    {% endif %}
+    <!-- Add competition -->
+    <div class="row comp-list mt-2">
+        <a href="" class="">
+            <i class="icon-plus"></i>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

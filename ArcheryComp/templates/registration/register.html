@@ -1,0 +1,44 @@
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Register
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Регистрация нового пользователя</h1>  
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    
+    <div class="row">
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="row justify-content-center mx-1 mt-2">
+                    <div class="col-xl-4 col-md-7 col-sm-12">
+                    <div class="row">{{field}}</div>
+                    </div>
+                </div>
+          {% endfor %}
+            
+          <div class="row justify-content-center mx-1 mt-4 mb-5">
+                <div class="col-xl-4 col-md-7 col-sm-12" >
+                    <div class="row">
+                        <button type="submit" class="confirm-btn">Зарегистрироваться</button>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+{% endblock %}

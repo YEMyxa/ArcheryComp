@@ -17,6 +17,7 @@ class Sportsman(models.Model):
         ('CMS', 'КМС'),
         ('MS', 'МС'),
         ('IMS', 'МСМК'),
+        ('Coach', 'Организатор')
     ]
 
     id = models.IntegerField(primary_key=True)

@@ -1,4 +1,9 @@
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
+from django.views import View
+from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic.edit import UpdateView, DeleteView
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from .models import Sportsman, PersonalParticipation, TeamParticipation, MixedParticipation
 
@@ -48,11 +53,13 @@ class ParticipationCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.competition = get_object_or_404(Competition, pk=self.kwargs['comp_id'])
-        form.instance.program = get_object_or_404(Program, pk=self.kwargs['program_id'])
+        form.instance.program =     get_object_or_404(Program,     pk=self.kwargs['program_id'])
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('competitions:competition_detail', kwargs={'comp_id': self.kwargs['comp_id']})
+    
+
 
 class PersonalParticipationCreateView(ParticipationCreateView):
     model = PersonalParticipation
@@ -69,11 +76,15 @@ class MixedParticipationCreateView(ParticipationCreateView):
 from django.views.generic.edit import UpdateView
 
 class ParticipationUpdateView(UpdateView):
+    # model = PersonalParticipation
+    # form_class = PersonalParticipationForm
     template_name = 'participations/update_participation.html'
     pk_url_kwarg = 'participation_id'
 
     def get_success_url(self):
         return reverse('competitions:competition_detail', kwargs={'comp_id': self.kwargs['comp_id']})
+    
+
 
 class PersonalParticipationUpdateView(ParticipationUpdateView):
     model = PersonalParticipation

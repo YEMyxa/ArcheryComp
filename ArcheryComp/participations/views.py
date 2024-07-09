@@ -24,7 +24,7 @@ class SportsmanListView(ListView):
         sportsmans_html += '</ul>'
         return HttpResponse(sportsmans_html)
 
-class PersonalParticipationListView(ParticipationListView):
+class PersonalParticipationListView(ListView):
     model = PersonalParticipation
     template_name = 'participations/user_participation.html'
     

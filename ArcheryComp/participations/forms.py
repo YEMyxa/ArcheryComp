@@ -42,4 +42,40 @@ class MixedParticipationForm(ModelForm):
                   'place':'Место',
                   'place_qualification':'Место в квалификации',
                   'sum_qualification':'Сумма в квалификации'}
-        
+
+
+class PersonalProgramForm(ModelForm):
+    class Meta:
+        model = PersonalParticipation
+        fields = ['program',
+                  'sportsman',
+                  'place', 'place_qualification', 'sum_qualification']
+
+        labels = {'sportsman': 'Спортсмен',
+                  'place': 'Место',
+                  'place_qualification': 'Место в квалификации',
+                  'sum_qualification': 'Сумма в квалификации'}
+
+class TeamProgramForm(ModelForm):
+    class Meta:
+        model = TeamParticipation
+        fields = ['program',
+                  'sportsman_1', 'sportsman_2', 'sportsman_3',
+                  'place', 'place_qualification', 'sum_qualification']
+
+        labels = {'sportsman': 'Спортсмен',
+                  'place': 'Место',
+                  'place_qualification': 'Место в квалификации',
+                  'sum_qualification': 'Сумма в квалификации'}
+
+class MixedProgramForm(ModelForm):
+    class Meta:
+        model = MixedParticipation
+        fields = ['program',
+                  'sportsman_M', 'sportsman_F',
+                  'place', 'place_qualification', 'sum_qualification']
+
+        labels = {'sportsman': 'Спортсмен',
+                  'place': 'Место',
+                  'place_qualification': 'Место в квалификации',
+                  'sum_qualification': 'Сумма в квалификации'}

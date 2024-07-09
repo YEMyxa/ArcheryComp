@@ -168,8 +168,14 @@ ArcheryComp Соревнования
 
         {% if perms.paticipations.add_mixedparticipation %}
         <div class="row mb-5">
-            <a href="{% url 'competitions:add_program' competition.comp_id %}" style="text-decoration: none;">
-                <i class="icon-plus">Добавить программу испытаний</i>
+            <a href="{% url 'competitions:personal_program' competition.comp_id %}" style="text-decoration: none;">
+                <i class="icon-plus">Добавить личную программу испытаний</i>
+            </a>
+            <a href="{% url 'competitions:team_program' competition.comp_id %}" style="text-decoration: none;">
+                <i class="icon-plus">Добавить командную программу испытаний</i>
+            </a>
+            <a href="{% url 'competitions:mixed_program' competition.comp_id %}" style="text-decoration: none;">
+                <i class="icon-plus">Добавить смешанную командную программу испытаний</i>
             </a>
         </div>
         {% endif %}

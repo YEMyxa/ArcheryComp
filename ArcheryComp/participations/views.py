@@ -126,7 +126,6 @@ class ParticipationCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('competitions:competition_detail', kwargs={'comp_id': self.kwargs['comp_id']})
-    
 
 class PersonalParticipationCreateView(PermissionRequiredMixin, ParticipationCreateView):
     model = PersonalParticipation
@@ -142,6 +141,33 @@ class TeamParticipationCreateView(PermissionRequiredMixin, ParticipationCreateVi
 class MixedParticipationCreateView(PermissionRequiredMixin, ParticipationCreateView):
     model = MixedParticipation
     form_class = MixedParticipationForm
+    permission_required = 'participations.add_mixedparticipation'
+
+from .forms import PersonalProgramForm, TeamProgramForm, MixedProgramForm
+
+class ProgramCreateView(CreateView):
+    template_name = 'participations/add_participation.html'
+
+    def form_valid(self, form):
+        form.instance.competition = get_object_or_404(Competition, pk=self.kwargs['comp_id'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('competitions:competition_detail', kwargs={'comp_id': self.kwargs['comp_id']})
+
+class PersonalProgramCreateView(ProgramCreateView):
+    model = PersonalParticipation
+    form_class = PersonalProgramForm
+    permission_required = 'participations.add_personalparticipation'
+
+class TeamProgramCreateView(ProgramCreateView):
+    model = TeamParticipation
+    form_class = TeamProgramForm
+    permission_required = 'participations.add_teamparticipation'
+
+class MixedProgramCreateView(ProgramCreateView):
+    model = MixedParticipation
+    form_class = MixedProgramForm
     permission_required = 'participations.add_mixedparticipation'
 
 class ParticipationUpdateView(UpdateView):

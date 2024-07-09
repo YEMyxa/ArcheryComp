@@ -109,4 +109,3 @@ class CompetitionDetailView(DetailView):
         return render(request, self.template_name, context={'competition':competition,
                                                             'programs': programs,
                                                             'discipline':competition.DISCIPLINE_CHOICES_DICT[competition.discipline]})
-        

@@ -19,7 +19,7 @@ class Sportsman(models.Model):
         ('IMS', 'МСМК'),
     ]
 
-    id = models.AutoField(primary_key=True)
+    id = models.IntegerField(primary_key=True)
     first_name = models.CharField(
         max_length=50,
         null=True,

@@ -1,9 +1,41 @@
 from django.http import HttpResponse
 from django.urls import reverse
-from .models import PersonalParticipation, TeamParticipation, MixedParticipation
+from .models import Sportsman, PersonalParticipation, TeamParticipation, MixedParticipation
 
-def index(request):
-    html = f"<h1>Список участий</h1>"
+from django.views.generic import ListView
+
+class SportsmanListView(ListView):
+    model = Sportsman
+
+    def get(self, request, *args, **kwargs):
+        sportsmans = self.get_queryset().order_by('last_name')
+        sportsmans_html = '<h1>Список спортсменов</h1><ul>'
+        for sportsman in sportsmans:
+            profile_url = reverse('participations:profile', kwargs={'id': sportsman.id})
+            sportsmans_html += f'<li><a href="{profile_url}">{sportsman.last_name} {sportsman.first_name}</a></li>'
+        sportsmans_html += '</ul>'
+        return HttpResponse(sportsmans_html)
+
+class PersonalParticipationListView(ListView):
+    model = PersonalParticipation
+
+    def get(self, request, *args, **kwargs):
+        participations = self.get_queryset().order_by('competition')
+        participations_html = '<h2>Список личных участий</h2><ul>'
+        for participation in participations:
+            competition = participation.competition
+            competition_url = reverse('competitions:competition_detail',
+                                      kwargs={'comp_id': competition.comp_id})
+            participations_html += (f'<li><a href="{competition_url}">{participation.competition.title}</a></br>'
+                                    f'      {participation.program.name} {participation.place} '
+                                    f'{participation.place_qualification} {participation.sum_qualification}</li>')
+        participations_html += '</ul>'
+        return HttpResponse(participations_html)
+
+def profile(request, id):
+    participations_list_url = reverse('participations:participations_list', kwargs={'id': id})
+    html = (f'<h1>Профиль спортсмена {id}</h1>'
+            f'<a href="{participations_list_url}">Список личных уччастий</a>')
     return HttpResponse(html)
 
 from django.views.generic import CreateView

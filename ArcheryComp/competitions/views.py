@@ -8,7 +8,7 @@ def index(request):
     D_list_url = reverse('competitions:D_list')
     acheri_list_url = reverse('competitions:acheri_list')
     asymmetrical_list_url = reverse('competitions:asymmetrical_list')
-    participation_list_url = reverse('participations:main')
+    sportsmans_list_url = reverse('participations:sportsmans_list')
     html = (f"<h1>Список соревнований</h1>"
             f"<h2>Выбор дисциплины</h2>"
             f"<a href='{classical_list_url}'>Классический лук</a><br/>"
@@ -16,19 +16,10 @@ def index(request):
             f"<a href='{D_list_url}'>3Д стрельба из лука</a><br/>"
             f"<a href='{acheri_list_url}'>Ачери</a><br/>"
             f"<a href='{asymmetrical_list_url}'>Ассиметричный лук</a><br/>"
-            f"<a href='{participation_list_url}'>Список участий</a>")
+            f"<a href='{sportsmans_list_url}'>Список спортсменов</a>")
     return HttpResponse(html)
 
 from django.views.generic import ListView
-
-def get_for_lists(self, request, *args, **kwargs):
-    competitions = self.get_queryset().order_by('started_at')
-    competitions_html = '<h1>Список соревнований</h1><ul>'
-    for competition in competitions:
-        competition_url = reverse('competitions:competition_detail', kwargs={'comp_id': competition.comp_id})
-        competitions_html += f'<li><a href="{competition_url}">{competition.title}</a></li>'
-    competitions_html += '</ul>'
-    return HttpResponse(competitions_html)
 
 class CompetitionListView(ListView):
     model = Competition
@@ -93,7 +84,12 @@ class CompetitionDetailView(DetailView):
                                   kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
                 response_html += f'<a href="{add_url}">Добавить участие</a>'
             elif program.team == 'Teams':
-                response_html += f'Здесь должна быть таблица командных участий</br>'
+                participations = competition.team_participations.filter(program=program)
+                for participation in participations:
+                    update_url = reverse('competitions:update_team',
+                                     kwargs={'comp_id': self.kwargs['comp_id'], 'participation_id': participation.id})
+                    response_html += (f'({participation.sportsman_1} {participation.sportsman_2} {participation.sportsman_3}) {participation.place} {participation.sum_qualification} '
+                                  f'<a href="{update_url}">Изменить</a></br>')
                 add_url = reverse('competitions:add_team',
                                   kwargs={'comp_id': self.kwargs['comp_id'], 'program_id': program.id})
                 response_html += f'<a href="{add_url}">Добавить участие</a>'

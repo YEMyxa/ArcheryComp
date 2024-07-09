@@ -20,6 +20,11 @@ ArcheryComp Соревнования
     <div class="row mt-2 mb-4">
         {{ competition.description }}
     </div>
+    <div class="row comp-types">
+        <div class="col text-center comp-type p-1 m-1">
+            <a href="{% url 'competitions:delete_classical_comp' competition.comp_id %}"onclick="return confirm('Вы уверены, что хотите удалить это соревнование?');">Удалить соревнование</a>
+        </div>
+    </div>
     <div class="row">
         {% for program in programs %}
             <div class="row">
@@ -29,11 +34,11 @@ ArcheryComp Соревнования
                         {% if perms.competitions.change_program %}
                         <a href="#" class=""><i class="icon-cog"></i></a>
                         {% endif %}
-                        
+
                     </h3>
                 </div>
                 <div class="row mb-5">
-                    
+
                     {% if program.team == 'Personal' %}
                         <div class="row">
                             <div class="col">Спортсмен</div>
@@ -71,7 +76,6 @@ ArcheryComp Соревнования
                             </a>
                         </div>
                         {% endif %}
-                        
 
                     {% elif program.team == 'Teams' %}
                         <div class="row">
@@ -140,7 +144,7 @@ ArcheryComp Соревнования
                             <div class="col">{{ place }}</div>
                             <div class="col">{{ place_qualification }}</div>
                             <div class="col">{{ sum_qualification }}</div>
-                            
+
                             {% if perms.paticipations.change_mixedparticipation %}
                             <div class="col-1" style="width: fit-content;">
                                 <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}">
@@ -161,25 +165,20 @@ ArcheryComp Соревнования
                         {% endif %}
 
                     {% endif %}
-                    
+
                 </div>
             </div>
         {% endfor %}
 
         {% if perms.paticipations.add_mixedparticipation %}
         <div class="row mb-5">
-            <a href="{% url 'competitions:personal_program' competition.comp_id %}" style="text-decoration: none;">
-                <i class="icon-plus">Добавить личную программу испытаний</i>
-            </a>
-            <a href="{% url 'competitions:team_program' competition.comp_id %}" style="text-decoration: none;">
-                <i class="icon-plus">Добавить командную программу испытаний</i>
-            </a>
-            <a href="{% url 'competitions:mixed_program' competition.comp_id %}" style="text-decoration: none;">
-                <i class="icon-plus">Добавить смешанную командную программу испытаний</i>
+            <a href="{% url 'competitions:add_program' competition.comp_id %}" style="text-decoration: none;">
+                <i class="icon-plus">Добавить программу испытаний</i>
             </a>
         </div>
         {% endif %}
     </div>
-
 </div>
+
+
 {% endblock %}

@@ -13,9 +13,6 @@ urlpatterns = [
     path('asymmetrical/', views.AsymmetricalListView.as_view(), name='asymmetrical_list'),
     path('competition_detail/<int:comp_id>/', include([
         path('', views.CompetitionDetailView.as_view(), name='competition_detail'),
-        path('personal_program/', views_p.PersonalProgramCreateView.as_view(), name='personal_program'),
-        path('team_program/', views_p.TeamProgramCreateView.as_view(), name='team_program'),
-        path('mixed_program/', views_p.MixedProgramCreateView.as_view(), name='mixed_program'),
         path('/<int:program_id>/', include([
             path('add_personal/', views_p.PersonalParticipationCreateView.as_view(), name='add_personal'),
             path('add_team/',     views_p.TeamParticipationCreateView.as_view(),     name='add_team'),
@@ -26,6 +23,7 @@ urlpatterns = [
             path('update_team/',     views_p.TeamParticipationUpdateView.as_view(),     name='update_team'),
             path('update_mixed/',    views_p.MixedParticipationUpdateView.as_view(),    name='update_mixed'),
         ])),
-        path('add_program/', views.IndexView.as_view(),name='add_program')
+        path('add_program/', views.IndexView.as_view(), name='add_program'),
+        path('delete/', views.ClassicalDeleteView.as_view(), name='delete_classical_comp')
     ])),
 ]

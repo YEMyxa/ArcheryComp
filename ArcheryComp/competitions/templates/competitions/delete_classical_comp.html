@@ -1,0 +1,12 @@
+{% extends 'competitions/competitions_base.html' %}
+
+{% block content %}
+    <h1>Удаление соревнования</h1>
+    <p>Вы уверены, что хотите удалить соревнование "{{ competition.title }}"?</p>
+
+    <form action="{% url 'competitions:delete_classical_comp' competition.comp_id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Удалить">
+        <a href="{% url 'competitions:competition_detail' competition.comp_id %}">Отмена</a>
+    </form>
+{% endblock %}

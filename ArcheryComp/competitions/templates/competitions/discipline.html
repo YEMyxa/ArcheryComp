@@ -23,7 +23,7 @@ ArcheryComp Соревнования
     {% else %}
 
         {% for competition in competitions %}
-            <div class="row  mt-2 comp-list">
+            <div class="row mt-2 comp-list">
                 
                 <div class="col">
                     <a href="{% url 'competitions:competition_detail' competition.comp_id %}"
@@ -33,9 +33,18 @@ ArcheryComp Соревнования
                 <!-- Edit competition -->
                 {% if perms.competitions.change_competition %}
                 <div class="col">
-                    <a href="" class="">
-                        <i class="icon-cog icon-settings"></i>
-                    </a>
+                    <div class="row justify-content-start">
+                        <div class="col-1">
+                            <a href="" class="">
+                                <i class="icon-cog icon-settings"></i>
+                            </a>
+                        </div>
+                        <div class="col-1">
+                            <a href="" class="">
+                                <i class="icon-trash-empty icon-settings"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 {% endif %}
                 

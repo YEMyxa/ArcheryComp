@@ -23,6 +23,6 @@ urlpatterns = [
             path('update_team/',     views_p.TeamParticipationUpdateView.as_view(),     name='update_team'),
             path('update_mixed/',    views_p.MixedParticipationUpdateView.as_view(),    name='update_mixed'),
         ])),
-        path('add_program/', views.IndexView.as_view(),name='add_program')
+        path('update_program/', views.ProgramUpdateView.as_view(),name='update_program')
     ])),
 ]

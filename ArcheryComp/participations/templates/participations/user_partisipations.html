@@ -1,0 +1,64 @@
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Участия
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Список участий {{user_.username}}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-2">
+    
+    <div class="row">
+        <h3>Индивидуальные участия</h3>
+    </div>
+    
+    <div class="row">
+        <div class="line-k mb-2"></div>
+        {% for competition,participations in competitions.items %}
+            <div class="row">
+                <div class="row">
+                    <h4>{{competition.title}}</h4>
+                </div>
+                <div class="row">
+                    <div class="col-6">Программа</div>
+                    <div class="col-2">Место</div>
+                    <div class="col-2">Место в квалификации</div>
+                    <div class="col-2">Сумма в квалификации</div>
+                </div>
+                <div class="line mb-2"></div>
+                {% for participation in participations %}
+                <div class="row">
+                    <div class="col-6">
+                        {{participation.program.name}}
+                    </div>
+                    <div class="col-2">
+                        {{participation.place}}
+                    </div>
+                    <div class="col-2">
+                        {{participation.place_qualification}}
+                    </div>
+                    <div class="col-2">
+                        {{participation.sum_qualification}}
+                    </div>
+                </div>
+                
+                {% endfor %}
+            </div>        
+            <div class="line-k my-2"></div>
+        {% endfor %}
+
+    </div>
+    
+</div>
+
+
+{% endblock %}

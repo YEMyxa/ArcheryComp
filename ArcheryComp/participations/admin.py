@@ -6,8 +6,7 @@ from .models import Sportsman, PersonalParticipation, TeamParticipation, MixedPa
 class SportsmanAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'last_name', 'first_name', 'second_name', 'sex', 'date_of_birth', 'rank', 'region', 'organization',
-        'coach',
-        'user')
+        'coach')
     list_filter = ('sex', 'rank')
     search_fields = ('id', 'second_name', 'date_of_birth', 'region', 'organization')
     list_editable = ('rank', 'region', 'organization', 'coach')

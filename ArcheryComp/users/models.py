@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from participations.models import Sportsman
 
 class Profile(models.Model):
     SEX_CHOICES = [
@@ -21,8 +22,19 @@ class Profile(models.Model):
         ('Нет разряда', 'Нет разряда'),
     ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    # sport_id = models.IntegerField(unique=True, null=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+    )
+
+    sportsman = models.OneToOneField(
+        Sportsman,
+        related_name='profile',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
 
     second_name = models.CharField(
         max_length=50,

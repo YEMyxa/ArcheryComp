@@ -9,5 +9,5 @@ urlpatterns = [
     path('',                views.IndexView.as_view(), name='home_page'),
     path('competitions/',   include('competitions.urls',   namespace='competitions')),
     path('participations/', include('participations.urls', namespace='participations')),
-    path('users/',          include('users.urls')),
+    path('users/',          include(('users.urls', 'users'), namespace='users')),
 ]

@@ -9,7 +9,7 @@ from .models import Competition
 
 class IndexView(View):
     template_name = 'competitions/index.html'
-
+    
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
 
@@ -19,38 +19,32 @@ class DisciplineListView(ListView):
     model = Competition
     template_name = 'competitions/discipline.html'
     discipline = ''
-
+    
     def get_queryset(self):
         return Competition.objects.filter(discipline=self.discipline)
 
     def get(self, request, *args, **kwargs):
         competitions = self.get_queryset().order_by('started_at')
-        competitions_html = '<h1>Список соревнований</h1><ul>'
-        for competition in competitions:
-            competition_url = reverse('competitions:competition_detail', kwargs={'comp_id': competition.comp_id})
-            competitions_html += f'<li><a href="{competition_url}">{competition.title}</a></li>'
-        competitions_html += '</ul>'
-        return HttpResponse(competitions_html)
+        
+        return render(request, self.template_name, context={'competitions':competitions,
+                                                            'discipline':self.model.DISCIPLINE_CHOICES_DICT[self.discipline],
+                                                            })
 
 class ClassicalListView(DisciplineListView):
-    def get_queryset(self):
-        return Competition.objects.filter(discipline='Classical')
+    discipline = 'Classical'
 
 class CompoundListView(DisciplineListView):
-    def get_queryset(self):
-        return Competition.objects.filter(discipline='Compound')
+    discipline = 'Compound'
 
 class DListView(DisciplineListView):
-    def get_queryset(self):
-        return Competition.objects.filter(discipline='3D')
+    discipline = '3D'
 
 class AcheriListView(DisciplineListView):
-    def get_queryset(self):
-        return Competition.objects.filter(discipline='Acheri')
+    discipline = 'Acheri'
 
 class AsymmetricalListView(DisciplineListView):
-    def get_queryset(self):
-        return Competition.objects.filter(discipline='Asymmetrical')
+    discipline = 'Asymmetrical'
+
 
 from django.views.generic import DetailView
 
@@ -58,7 +52,6 @@ class CompetitionDetailView(DetailView):
     model = Competition
     template_name = 'competitions/competition_detail.html'
     pk_url_kwarg = 'comp_id'
-
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -68,26 +61,28 @@ class CompetitionDetailView(DetailView):
         mixed_participations = competition.mixed_participations.all()
         participations_type = [personal_participations, team_participations, mixed_participations]
         programs = set()
-
+        
         for participations in participations_type:
             for participation in participations:
                 programs.add(participation.program)
-
+        
         for program in programs:
             program.personal_program = []
             program.team_program = []
             program.mixed_program = []
 
-            participations = competition.participations.filter(program=program)
             if program.team == 'Personal':
+                participations = competition.participations.filter(program=program)
                 for participation in participations:
                     program.personal_program.append([participation.sportsman,
                                                      participation.place,
                                                      participation.place_qualification,
                                                      participation.sum_qualification,
                                                      participation.id])
-            # Аналогично Personal
+                program.personal_program.sort(key = lambda x: x[1])
             elif program.team == 'Teams':
+                participations = competition.team_participations.filter(program=program)
+
                 for participation in participations:
                     program.team_program.append([(participation.sportsman_1,
                                                   participation.sportsman_2,
@@ -96,7 +91,12 @@ class CompetitionDetailView(DetailView):
                                                   participation.place_qualification,
                                                   participation.sum_qualification,
                                                   participation.id])
+
+                program.team_program.sort(key = lambda x: x[1])
+
+
             else:
+                participations = competition.mixed_participations.filter(program=program)
                 for participation in participations:
                     program.mixed_program.append([(participation.sportsman_M,
                                                    participation.sportsman_F),
@@ -104,7 +104,9 @@ class CompetitionDetailView(DetailView):
                                                    participation.place_qualification,
                                                    participation.sum_qualification,
                                                    participation.id])
+                program.mixed_program.sort(key = lambda x: x[1])
 
         return render(request, self.template_name, context={'competition':competition,
                                                             'programs': programs,
                                                             'discipline':competition.DISCIPLINE_CHOICES_DICT[competition.discipline]})
+        

@@ -113,7 +113,7 @@ a {
 
 .main-btn:hover {
     border: 1px solid var(--border-color);
-    
+
 }
 
 .href-btn {
@@ -130,6 +130,7 @@ a {
     display: block;
     text-transform: uppercase;
     font-weight: 600;
+    text-align: center;
 }
 .confirm-btn:hover {
     border: 1px solid black;
@@ -276,3 +277,4 @@ a {
 .hover-underline:hover {
     text-decoration: underline;
 }
+

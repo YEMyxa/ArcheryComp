@@ -24,8 +24,12 @@ ArcheryComp Profile
         {% for field in user_form %}
             <div class="row mx-1 mt-2">
                 <div class="col-xl-4 col-md-6 col-sm-12">
-                    <div class="row">{{ field.label_tag }}</div>
-                    <div class="row">{{field}}</div>
+                    <div class="row">{{ field.label }}</div>
+                    <div class="row">{{ field }}</div>
+                    {% for error in field.errors%}
+                    <div class="row">{{ error }}</div>
+                    {% endfor %}
+                    
                 </div>
             </div>
         {% endfor %}
@@ -34,6 +38,9 @@ ArcheryComp Profile
                 <div class="col-xl-4 col-md-6 col-sm-12">
                     <div class="row">{{ field.label_tag }}</div>
                     <div class="row">{{field}}</div>
+                    {% for error in field.errors%}
+                    <div class="row">{{ error }}</div>
+                    {% endfor %}
                 </div>
             </div>
         {% endfor %}
@@ -42,12 +49,19 @@ ArcheryComp Profile
         <div class="row mx-1 mt-4 mb-5">
             <div class="col-xl-4 col-md-7 col-sm-12">
                 <div class="row">
-                    <button type="submit" class="confirm-btn">Сохранить</button>
+                    <div class="col-6">
+                        <button type="submit" class="confirm-btn" style="width: 100%;">Сохранить</button>
+                    </div>
+                    <div class="col-6">
+                        <a href="{% url 'users:profile_view' user.username %}" class="confirm-btn">Отменить</a>
+                    </div>
                 </div>
+                
             </div>
         </div>
         
     </form>
+    
     
 </div>
 

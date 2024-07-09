@@ -3,6 +3,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from .models import Sportsman, PersonalParticipation, TeamParticipation, MixedParticipation
@@ -48,6 +49,12 @@ from .forms import PersonalParticipationForm, TeamParticipationForm, MixedPartic
 from django.shortcuts import render, redirect, get_object_or_404
 from competitions.models import Competition, Program
 
+def index(request):
+    html = f"<h1>Список спортсменов</h1>"
+    return HttpResponse(html)
+
+
+
 class ParticipationCreateView(CreateView):
     template_name = 'participations/add_participation.html'
 
@@ -60,20 +67,21 @@ class ParticipationCreateView(CreateView):
         return reverse('competitions:competition_detail', kwargs={'comp_id': self.kwargs['comp_id']})
     
 
-
-class PersonalParticipationCreateView(ParticipationCreateView):
+class PersonalParticipationCreateView(PermissionRequiredMixin, ParticipationCreateView):
     model = PersonalParticipation
     form_class = PersonalParticipationForm
+    permission_required = 'participations.add_personalparticipation'
 
-class TeamParticipationCreateView(ParticipationCreateView):
+
+class TeamParticipationCreateView(PermissionRequiredMixin, ParticipationCreateView):
     model = TeamParticipation
     form_class = TeamParticipationForm
+    permission_required = 'participations.add_teamparticipation'
 
-class MixedParticipationCreateView(ParticipationCreateView):
+class MixedParticipationCreateView(PermissionRequiredMixin, ParticipationCreateView):
     model = MixedParticipation
     form_class = MixedParticipationForm
-
-from django.views.generic.edit import UpdateView
+    permission_required = 'participations.add_mixedparticipation'
 
 class ParticipationUpdateView(UpdateView):
     # model = PersonalParticipation
@@ -84,16 +92,23 @@ class ParticipationUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('competitions:competition_detail', kwargs={'comp_id': self.kwargs['comp_id']})
     
-
-
-class PersonalParticipationUpdateView(ParticipationUpdateView):
+class PersonalParticipationUpdateView(PermissionRequiredMixin, ParticipationUpdateView):
     model = PersonalParticipation
     form_class = PersonalParticipationForm
+    permission_required = 'participations.change_personalparticipation'
 
-class TeamParticipationUpdateView(ParticipationUpdateView):
+class TeamParticipationUpdateView(PermissionRequiredMixin, ParticipationUpdateView):
     model = TeamParticipation
     form_class = TeamParticipationForm
+    permission_required = 'participations.change_teamparticipation'
 
-class MixedParticipationUpdateView(ParticipationUpdateView):
+class MixedParticipationUpdateView(PermissionRequiredMixin, ParticipationUpdateView):
     model = MixedParticipation
     form_class = MixedParticipationForm
+    permission_required = 'participations.change_mixedparticipation'
+
+
+class UserParticipitionsView(View):
+    def get(self,  request, username, *args, **kwargs):
+        return render(request, 'participations/user_part.html', context={'username': username})
+

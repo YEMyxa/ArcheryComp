@@ -1,0 +1,22 @@
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Удаление участия
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        Вы уверены, что хотите удалить это участие?
+    </div>
+    <div class="row">
+        <form action="{% url 'competitions:competition_detail' participation.competition.comp_id %}">
+            {% csrf_token %}
+            <input type="submit" value="Удалить">
+            <a href="{% url 'competitions:competition_detail' participation.competition.comp_id %}">Отмена</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Участия
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Участия спортсмена {{username}}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-2">
+    
+    <div class="row user-part-refs">
+        <a href="{% url 'participations:participations_list' username %}" class="sportman-el">Список личных участий</a>
+    </div>
+    <div class="row user-part-refs">
+        <a href="{% url 'participations:team_participations_list' username %}" class="sportman-el">Список командных участий</a>
+    </div>
+    <div class="row user-part-refs">
+        <a href="{% url 'participations:mixed_participations_list' username %}" class="sportman-el">Список смешанных участий</a>
+    </div>
+    
+</div>
+
+
+{% endblock %}

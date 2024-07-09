@@ -16,34 +16,27 @@ from competitions.models import Competition, Program
 
 class SportsmanListView(ListView):
     model = User
+    template_name = 'participations/sportsman_list.html'
+ 
 
-    def get(self, request, *args, **kwargs):
+    def get(self,  request, *args, **kwargs):
         sportsmans = self.get_queryset().order_by('last_name')
-        sportsmans_html = '<h1>Список спортсменов</h1><ul>'
-        for sportsman in sportsmans:
-            profile_url = reverse('users:profile_view', kwargs={'username': sportsman.username})
-            sportsmans_html += f'<li><a href="{profile_url}">{sportsman.last_name} {sportsman.first_name}</a></li>'
-        sportsmans_html += '</ul>'
-        return HttpResponse(sportsmans_html)
+        return render(request, self.template_name, context={'sportsmans': sportsmans}) 
 
 class PersonalParticipationListView(ListView):
     model = PersonalParticipation
-
+    template_name = 'participations/user_participation.html'
     def get(self, request, *args, **kwargs):
-        competition_prev = 0
+        
         participations = PersonalParticipation.objects.filter(sportsman__username=self.kwargs['username'])
-        participations_html = '<h2>Список личных участий</h2><ul>'
+        competitions = {}
         for participation in participations:
-            competition = participation.competition
-            competition_url = reverse('competitions:competition_detail',
-                                      kwargs={'comp_id': competition.comp_id})
-            if competition != competition_prev:
-                participations_html += f'<a href="{competition_url}">{participation.competition.title}</a></br>'
-            participations_html += (f'<li>    {participation.program.name} {participation.place} '
-                                    f'{participation.place_qualification} {participation.sum_qualification}</li>')
-            competition_prev = competition
-        participations_html += '</ul>'
-        return HttpResponse(participations_html)
+            if not competitions.get(participation.competition):
+                competitions.update({participation.competition:[]})
+            competitions.get(participation.competition).append(participation)
+        
+        return render(request, self.template_name, context={'competitions': competitions})
+
 
 class TeamParticipationListView(ListView):
     model = TeamParticipation
@@ -72,6 +65,51 @@ class TeamParticipationListView(ListView):
             competition_prev = competition
         participations_html += '</ul>'
         return HttpResponse(participations_html)
+
+# class TeamParticipationListView(ListView):
+#     model = TeamParticipation
+#     template_name = 'participations/user_teamparticipation.html'
+
+    
+    
+
+    # def get(self, request, *args, **kwargs):
+    #     competition_prev = 0
+    #     participations = TeamParticipation.objects.filter(Q(sportsman_1__username=self.kwargs['username'])
+    #                                                       | Q(sportsman_2__username=self.kwargs['username'])
+    #                                                       | Q(sportsman_3__username=self.kwargs['username']))
+    #     competitions = {}
+
+    #     for participation in participations:
+    #         if not competitions.get(participation.competition):
+    #             competitions.update({participation.competition:[]})
+            
+    #         team = [participation.sportsman_2, participation.sportsman_3]
+    #         team.remove(get_object_or_404(User, username=self.kwargs['username']))
+    #         competitions.get(participation.competition).append([participation,
+    #                                                            team])
+            
+    #         competition = participation.competition
+    #         competition_url = reverse('competitions:competition_detail',
+    #                                   kwargs={'comp_id': competition.comp_id})
+            
+            
+    #         if competition != competition_prev:
+    #             participations_html += f'<a href="{competition_url}">{participation.competition.title}</a></br>'
+    #         participations_html += (f'<li>    {participation.program.name} {participation.place} '
+    #                                 f'{participation.place_qualification} {participation.sum_qualification}</br>'
+    #                                 f'в команде с ')
+    #         for i in range(2):
+    #             teammate_url = reverse('users:profile_view', kwargs={'username': team[i].username})
+    #             participations_html += f'<a href="{teammate_url}">{team[i].last_name} {team[i].first_name} </a>'
+    #         participations_html += '</li>'
+    #         competition_prev = competition
+    #     participations_html += '</ul>'
+        
+    #     competitions = [[key]+value for key, value in competitions.items()]
+        
+    #     return render(request, self.template_name, context={'competitions': competitions})
+
 
 class MixedParticipationListView(ListView):
     model = MixedParticipation
@@ -105,14 +143,8 @@ class MixedParticipationListView(ListView):
         return HttpResponse(participations_html)
 
 def profile(request, username):
-    participations_list_url = reverse('participations:participations_list', kwargs={'username': username})
-    team_participations_list_url = reverse('participations:team_participations_list', kwargs={'username': username})
-    mixed_participations_list_url = reverse('participations:mixed_participations_list', kwargs={'username': username})
-    html = (f'<h1>Участия спортсмена {username}</h1>'
-            f'<a href="{participations_list_url}">Список личных участий</a></br>'
-            f'<a href="{team_participations_list_url}">Список командных участий</a></br>'
-            f'<a href="{mixed_participations_list_url}">Список смешанных командных участий</a>')
-    return HttpResponse(html)
+    template_name = 'participations/user_partisipations.html'
+    return render(request, template_name, context={'username': username})
 
 class ParticipationCreateView(CreateView):
     template_name = 'participations/add_participation.html'
@@ -169,8 +201,6 @@ class MixedProgramCreateView(ProgramCreateView):
     permission_required = 'participations.add_mixedparticipation'
 
 class ParticipationUpdateView(UpdateView):
-    # model = PersonalParticipation
-    # form_class = PersonalParticipationForm
     template_name = 'participations/update_participation.html'
     pk_url_kwarg = 'participation_id'
 
@@ -197,3 +227,14 @@ class UserParticipitionsView(View):
     def get(self,  request, username, *args, **kwargs):
         return render(request, 'participations/user_part.html', context={'username': username})
 
+class ParticipationDeleteView(DeleteView):
+    model = None
+    pk_url_kwarg = 'participation_id'
+    success_url = reverse_lazy('competitions:competition_detail')
+    template_name = 'participation/delete_participation.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,{'participation':self.get_object()})
+
+class PersonalParticipationDeleteView(PersonalParticipationUpdateView):
+    model = PersonalParticipation

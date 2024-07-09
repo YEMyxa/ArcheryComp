@@ -17,7 +17,6 @@ class PersonalParticipationForm(ModelForm):
                   'place_qualification':'Место в квалификации',
                   'sum_qualification':'Сумма в квалификации'}
         
-        
 class TeamParticipationForm(ModelForm):
     class Meta:
         model = TeamParticipation

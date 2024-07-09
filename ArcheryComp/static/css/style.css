@@ -73,27 +73,6 @@ a {
 
 
 
-/* Resize images */
-.container img {
-    width: 100%;
-    height: auto;
-}
-/* div {
-    padding: auto 10px;
-} */
-
-
-
-
-.triangle {
-    margin-right: -5px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 10px 0 10px 20px;
-    border-color: transparent transparent transparent var(--bs-white);
-}
-
 .main-btn {
     border-radius: 10px;
     border: 1px solid white;
@@ -110,17 +89,18 @@ a {
     font-size: var(--text-font-size);   
 }
 
-
 .main-btn:hover {
     border: 1px solid var(--border-color);
 
 }
 
 .href-btn {
-    border-radius: 10px;
-    
+    border-radius: 10px;    
 }
 
+.btn-w-100 {
+    width: 100%;
+}
 
 .confirm-btn {
     border-radius: 10px;
@@ -149,7 +129,12 @@ a {
 
 .line {
     height: 1px;
-    background-color: #9292927a;
+    background-color: var(--border-color);
+    margin: 5px auto 0px;
+}
+.line-k {
+    height: 2px;
+    background-color: black;
     margin: 5px auto 0px;
 }
 
@@ -170,9 +155,6 @@ a {
 .btn-transform {
     transition: .3s transform ease-in-out;
 }
-/* .btn-transform:hover, .btn-transform:active {
-    transform: rotate(-90deg);
-} */
 
 .btn-transform[aria-expanded="true"]{
     transform: rotate(-90deg);
@@ -190,10 +172,20 @@ a {
     box-shadow: none;
 }
 
-
+.nav-btn-container {
+    height: 50px;
+    width: 50px;
+}
+.nav-btn-container i {
+    transform: rotate(-90deg);
+}
 
 .nav-i {
     font-size: 28px;
+}
+
+.icon-arrow-aim-nav {
+    padding-right: 7px;
 }
 
 .main-nav a,.main-btn{
@@ -208,11 +200,10 @@ a {
 }
 
 
+
 /* Home page */
 
 .hpage-features {
-    /* background-color: rgba(128, 128, 128, 0.521); */
-    /* border: 1px solid var(--border-color); */
     border-radius: 20px;
 }
 .hpage-feature {
@@ -222,7 +213,9 @@ a {
     min-height: 100px;
     background-color: var(--bg-color1);
 }
-
+.hpage-feature a {
+    font-weight: 500;
+}
 
 /* Home page end*/
 
@@ -249,6 +242,9 @@ a {
     
 }
 
+.disciplines-navbar {
+    position: fixed;
+}
 
 /* Competitions end */
 
@@ -278,3 +274,41 @@ a {
     text-decoration: underline;
 }
 
+.part-detail .col-1 {
+    width: fit-content;
+    
+}
+.settings-btn-col {
+    width: 30px;
+}
+
+.add-part-in-prog a {
+    text-decoration: none;
+}
+
+.icon-cog,
+.icon-plus,
+.icon-trash-empty {
+    color: var(--settings-i-color);
+}
+.icon-cog:hover,
+.icon-plus:hover,
+.icon-trash-empty:hover {
+    color: black;
+}
+
+.no-hover-text-decor:hover {
+    text-decoration: none;
+}
+
+.sportman-el {
+    border-bottom: 1px solid white;
+}
+.sportman-el:hover {
+    
+    border-bottom: 1px solid black;
+}
+
+.user-part-refs {
+    width: fit-content;
+}

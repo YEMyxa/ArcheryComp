@@ -17,7 +17,7 @@
             <!-- Naviagtion panel -->    
             <nav>
                 <!-- Навигационное меню -->
-                <div class="container-fluid" style="margin: -15px auto 0px"> 
+                <div class="container-fluid" > 
                     <div class="row">
             
                         <nav class="navbar navbar-expand-lg main-nav">
@@ -26,9 +26,9 @@
                                 <a href="{% url 'home_page' %}" class="ArcheryComp">
                                     <i class="icon-bow-arrow"></i> ArcheryComp
                                 </a>
-                                <div class="" style="height: 50px; width: 50px;"> 
+                                <div class="nav-btn-container"> 
                                     <button class="navbar-toggler main-btn btn-transform nav-collapse-btn" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                        <i class="icon-arrow1 nav-i" style="transform: rotate(-90deg);" ></i>
+                                        <i class="icon-arrow1 nav-i" ></i>
                                     </button>
                                 </div>
                               
@@ -39,7 +39,7 @@
                                   
                                     <li class="nav-item">
                                     <a href="{% url 'competitions:index' %}" class="main-btn nav-btn">
-                                        <i class="icon-arrow-aim nav-i" style="padding-right: 7px;"></i> Соревнования
+                                        <i class="icon-arrow-aim nav-i icon-arrow-aim-nav"></i> Соревнования
                                     </a>
                                     </li>
             
@@ -53,34 +53,34 @@
                                 <!-- end Navigation buttons -->
                                 <div class="line mb-1"></div>
                                 <!-- auth -->
-                                <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="background-color: aqua;"> -->
-                                    <div class="row justify-content-center">
-                                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                            {% if user.is_authenticated %}
-                                                <li class="nav-item">
-                                                    <a href="{% url 'users:profile_view' user.username %}" class="main-btn nav-auth-btn">Профиль {{ user.username }}</a>
-                                                </li>
+                                
+                                <div class="row justify-content-center">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        {% if user.is_authenticated %}
+                                            <li class="nav-item">
+                                                <a href="{% url 'users:profile_view' user.username %}" class="main-btn nav-auth-btn">Профиль {{ user.username }}</a>
+                                            </li>
             
-                                                <li class="nav-item">
-                                                    <form action="{% url 'users:logout' %}" method="post">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="main-btn nav-auth-btn" style="width: 100%;">Выйти</button>
-                                                    </form>
-                                                </li>
-                                            {% else %}
-                                                <li class="nav-item ">
-                                                    <a href="{% url 'users:login' %}" class="main-btn nav-auth-btn">Вход</a>
-                                                </li>
+                                            <li class="nav-item">
+                                                <form action="{% url 'users:logout' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="main-btn nav-auth-btn btn-w-100">Выйти</button>
+                                                </form>
+                                            </li>
+                                        {% else %}
+                                            <li class="nav-item ">
+                                                <a href="{% url 'users:login' %}" class="main-btn nav-auth-btn">Вход</a>
+                                            </li>
             
-                                                <li class="nav-item ">
-                                                    <a href="{% url 'users:register' %}" class="main-btn nav-auth-btn">Регистрация</a>
-                                                </li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    <!-- </ul> -->
-            
+                                            <li class="nav-item ">
+                                                <a href="{% url 'users:register' %}" class="main-btn nav-auth-btn">Регистрация</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                
                                 <!-- end auth -->
+
                               </div>
                             </div>
                           </nav>

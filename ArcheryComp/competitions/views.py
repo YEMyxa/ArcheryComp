@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from django.http import HttpResponse
 from django.urls import reverse
-from .models import Competition
+from .models import Competition, Program
 
 class IndexView(View):
     template_name = 'competitions/index.html'
@@ -109,3 +109,15 @@ class CompetitionDetailView(DetailView):
         return render(request, self.template_name, context={'competition':competition,
                                                             'programs': programs,
                                                             'discipline':competition.DISCIPLINE_CHOICES_DICT[competition.discipline]})
+        
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from .forms import ProgramForm
+
+class ProgramUpdateView(UpdateView):
+    model = Program
+    template_name = 'competitions/update_program.html'
+    form_class = ProgramForm
+    pk_url_kwarg = ''
+
+    def get_success_url(self):
+        return reverse('competitions:competition_detail', kwargs={'comp_id': self.kwargs['comp_id']})

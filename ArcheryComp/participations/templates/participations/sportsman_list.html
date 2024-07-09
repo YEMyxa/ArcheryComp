@@ -1,0 +1,48 @@
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Список спортсменов
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Список спортсменов</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    
+    <div class="row">
+
+        {% for sportsman in sportsmans %}
+        <a href="{% url 'users:profile_view' sportsman.username %}"  >    
+            <div class="container-fluid " >
+                <div class="row mt-2">
+                    <div class="col-3 sportman-el">
+                        <div class="row">
+                            <div class="col">
+                                {{ sportsman.last_name }}
+                            </div>
+                            <div class="col">
+                                {{ sportsman.first_name }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+            <div class="line mt-1"></div>
+        {% endfor %}
+
+    </div>
+    
+</div>
+
+
+{% endblock %}

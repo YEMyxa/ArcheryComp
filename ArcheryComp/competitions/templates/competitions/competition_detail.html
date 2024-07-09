@@ -27,7 +27,8 @@ ArcheryComp Соревнования
                     <h3> {{ program.name }}
 
                         {% if perms.competitions.change_program %}
-                        <a href="#" class=""><i class="icon-cog"></i></a>
+                        <a href="{% url 'competitions:update_program' competition.comp_id %}" class=""><i class="icon-cog"></i></a>
+                        <a href="#" class=""><i class="icon-trash-empty"></i></a>
                         {% endif %}
                         
                     </h3>
@@ -42,22 +43,31 @@ ArcheryComp Соревнования
                             <div class="col">Сумма в квалификации</div>
                             <div class="col-1"></div>
                         </div>
-                        <div class="line" style="background-color: black;"></div>
+                        <div class="line-k"></div>
 
                         {% for sportsmen, place, place_qualification, sum_qualification, participation_id  in program.personal_program  %}
-                        <div class="row">
+                        <div class="row part-detail">
                             <div class="col">
-                                <a href="#" class="">{{ sportsmen }}</a>
+                                <a href="{% url 'users:profile_view_by_id' sportsmen.id %}" class="">{{ sportsmen }}</a>
                             </div>
                             <div class="col">{{ place }}</div>
                             <div class="col">{{ place_qualification }}</div>
                             <div class="col">{{ sum_qualification }}</div>
 
                             {% if perms.paticipations.change_personalparticipation %}
-                            <div class="col-1" style="width: fit-content;">
-                                <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}">
-                                    <i class="icon-cog"></i>
-                                </a>
+                            <div class="col-1">
+                                <div class="row">
+                                    <div class="col settings-btn-col">
+                                        <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}" class="no-hover-text-decor">
+                                            <i class="icon-cog"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col settings-btn-col">
+                                        <a href="#" class="no-hover-text-decor">
+                                            <i class="icon-trash-empty"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             {% endif %}
                             <div class="line"></div>
@@ -81,14 +91,14 @@ ArcheryComp Соревнования
                             <div class="col">Сумма в квалификации</div>
                             <div class="col-1"></div>
                         </div>
-                        <div class="line" style="background-color: black;"></div>
+                        <div class="line-k"></div>
 
                         {% for sportsmens, place, place_qualification, sum_qualification, participation_id in program.team_program  %}
-                        <div class="row">
+                        <div class="row part-detail">
                             <div class="col">
                                 {% for sportsmen in sportsmens %}
                                     <div class="row">
-                                        <a href="#" class="">{{ sportsmen }}</a>
+                                        <a href="{% url 'users:profile_view_by_id' sportsmen.id %}" class="">{{ sportsmen }}</a>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -97,10 +107,19 @@ ArcheryComp Соревнования
                             <div class="col">{{ sum_qualification }}</div>
 
                             {% if perms.paticipations.change_teamparticipation %}
-                            <div class="col-1" style="width: fit-content;">
-                                <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}">
-                                    <i class="icon-cog"></i>
-                                </a>
+                            <div class="col-1">
+                                <div class="row">
+                                    <div class="col settings-btn-col">
+                                        <a href="{% url 'competitions:update_team' competition.comp_id participation_id %}" class="no-hover-text-decor">
+                                            <i class="icon-cog"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col settings-btn-col">
+                                        <a href="#" class="no-hover-text-decor">
+                                            <i class="icon-trash-empty"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             {% endif %}
                             <div class="line"></div>
@@ -126,14 +145,14 @@ ArcheryComp Соревнования
                             <div class="col">Сумма в квалификации</div>
                             <div class="col-1"></div>
                         </div>
-                        <div class="line" style="background-color: black;"></div>
+                        <div class="line-k"></div>
 
                         {% for sportsmens, place,place_qualification, sum_qualification, participation_id in program.mixed_program  %}
-                        <div class="row">
+                        <div class="row part-detail">
                             <div class="col">
                                 {% for sportsmen in sportsmens %}
                                     <div class="row">
-                                        <a href="#" class="">{{ sportsmen }}</a>
+                                        <a href="{% url 'users:profile_view_by_id' sportsmen.id %}" class="">{{ sportsmen }}</a>
                                     </div>
                                 {% endfor %}
                             </div>
@@ -142,10 +161,19 @@ ArcheryComp Соревнования
                             <div class="col">{{ sum_qualification }}</div>
                             
                             {% if perms.paticipations.change_mixedparticipation %}
-                            <div class="col-1" style="width: fit-content;">
-                                <a href="{% url 'competitions:update_personal' competition.comp_id participation_id %}">
-                                    <i class="icon-cog"></i>
-                                </a>
+                            <div class="col-1">
+                                <div class="row">
+                                    <div class="col settings-btn-col">
+                                        <a href="{% url 'competitions:update_mixed' competition.comp_id participation_id %}" class="no-hover-text-decor">
+                                            <i class="icon-cog"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col settings-btn-col">
+                                        <a href="#" class="no-hover-text-decor">
+                                            <i class="icon-trash-empty"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             {% endif %}
                             <div class="line"></div>
@@ -167,15 +195,9 @@ ArcheryComp Соревнования
         {% endfor %}
 
         {% if perms.paticipations.add_mixedparticipation %}
-        <div class="row mb-5">
-            <a href="{% url 'competitions:personal_program' competition.comp_id %}" style="text-decoration: none;">
-                <i class="icon-plus">Добавить личную программу испытаний</i>
-            </a>
-            <a href="{% url 'competitions:team_program' competition.comp_id %}" style="text-decoration: none;">
-                <i class="icon-plus">Добавить командную программу испытаний</i>
-            </a>
-            <a href="{% url 'competitions:mixed_program' competition.comp_id %}" style="text-decoration: none;">
-                <i class="icon-plus">Добавить смешанную командную программу испытаний</i>
+        <div class="row mb-5 add-part-in-prog">
+            <a href="#">
+                <i class="icon-plus">Добавить программу испытаний</i>
             </a>
         </div>
         {% endif %}

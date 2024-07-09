@@ -20,7 +20,7 @@ ArcheryComp Список спортсменов
     <div class="row">
 
         {% for sportsman in sportsmans %}
-        <a href="{% url 'participations:profile' sportsman.id %}"  >    
+        <a href="{% url 'users:profile_view' sportsman.username %}"  >    
             <div class="container-fluid " >
                 <div class="row mt-2">
                     <div class="col-3 sportman-el">

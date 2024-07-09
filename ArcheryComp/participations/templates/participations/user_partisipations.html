@@ -8,7 +8,7 @@ ArcheryComp Участия
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h1>Список участий {{user_.username}}</h1>
+            <h1>Участия спортсмена {{username}}</h1>
         </div>
     </div>
 </div>
@@ -17,45 +17,14 @@ ArcheryComp Участия
 {% block content %}
 <div class="container mt-2">
     
-    <div class="row">
-        <h3>Индивидуальные участия</h3>
+    <div class="row user-part-refs">
+        <a href="{% url 'participations:participations_list' username %}" class="sportman-el">Список личных участий</a>
     </div>
-    
-    <div class="row">
-        <div class="line-k mb-2"></div>
-        {% for competition,participations in competitions.items %}
-            <div class="row">
-                <div class="row">
-                    <h4>{{competition.title}}</h4>
-                </div>
-                <div class="row">
-                    <div class="col-6">Программа</div>
-                    <div class="col-2">Место</div>
-                    <div class="col-2">Место в квалификации</div>
-                    <div class="col-2">Сумма в квалификации</div>
-                </div>
-                <div class="line mb-2"></div>
-                {% for participation in participations %}
-                <div class="row">
-                    <div class="col-6">
-                        {{participation.program.name}}
-                    </div>
-                    <div class="col-2">
-                        {{participation.place}}
-                    </div>
-                    <div class="col-2">
-                        {{participation.place_qualification}}
-                    </div>
-                    <div class="col-2">
-                        {{participation.sum_qualification}}
-                    </div>
-                </div>
-                
-                {% endfor %}
-            </div>        
-            <div class="line-k my-2"></div>
-        {% endfor %}
-
+    <div class="row user-part-refs">
+        <a href="{% url 'participations:team_participations_list' username %}" class="sportman-el">Список командных участий</a>
+    </div>
+    <div class="row user-part-refs">
+        <a href="{% url 'participations:mixed_participations_list' username %}" class="sportman-el">Список смешанных участий</a>
     </div>
     
 </div>

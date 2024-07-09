@@ -1,7 +1,57 @@
-<h2>Добавить участие в соревнование {{ competition.title }}</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Добавить участие</button>
-        <a href="javascript:history.back()">Отменить</a>
-    </form>
+{% extends 'ArcheryComp/base.html' %}
+
+{% block title %}
+ArcheryComp Изменение участия
+{% endblock %}
+
+{% block header %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1> {{object.competition.discipline}} - {{ object.competition.title }}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-2">
+        <h3>Изменение участие</h3>
+    </div>
+    <div class="row">
+        <form method="post">
+            <div class="row">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="row justify-content-start mx-1 mt-2">
+                    <div class="col-xl-4 col-md-7 col-sm-12">
+                        <div class="row">{{field.label}}</div>
+                        <div class="row">{{field}}</div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="row justify-content-start mx-1 mt-4">
+                    <div class="col-xl-4 col-md-7 col-sm-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <button type="submit" class="confirm-btn" style="width: 100%;">Сохранить</button>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:history.back()" class="confirm-btn">Отменить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </form>
+    </div>
+    
+</div>
+
+
+{% endblock %}

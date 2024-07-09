@@ -11,14 +11,14 @@ from .forms import PersonalParticipationForm, TeamParticipationForm, MixedPartic
 from competitions.models import Competition, Program
 
 def index(request):
-    html = f"<h1>Список участий</h1>"
+    html = f"<h1>Список спортсменов</h1>"
     return HttpResponse(html)
 
 
 
 class ParticipationCreateView(CreateView):
     template_name = 'participations/add_participation.html'
-
+    
     def form_valid(self, form):
         form.instance.competition = get_object_or_404(Competition, pk=self.kwargs['comp_id'])
         form.instance.program =     get_object_or_404(Program,     pk=self.kwargs['program_id'])
@@ -31,6 +31,7 @@ class PersonalParticipationCreateView(PermissionRequiredMixin, ParticipationCrea
     model = PersonalParticipation
     form_class = PersonalParticipationForm
     permission_required = 'participations.add_personalparticipation'
+    
 
 class TeamParticipationCreateView(PermissionRequiredMixin, ParticipationCreateView):
     model = TeamParticipation
@@ -43,8 +44,6 @@ class MixedParticipationCreateView(PermissionRequiredMixin, ParticipationCreateV
     permission_required = 'participations.add_mixedparticipation'
 
 class ParticipationUpdateView(UpdateView):
-    # model = PersonalParticipation
-    # form_class = PersonalParticipationForm
     template_name = 'participations/update_participation.html'
     pk_url_kwarg = 'participation_id'
 
@@ -70,3 +69,4 @@ class MixedParticipationUpdateView(PermissionRequiredMixin, ParticipationUpdateV
 class UserParticipitionsView(View):
     def get(self,  request, username, *args, **kwargs):
         return render(request, 'participations/user_part.html', context={'username': username})
+

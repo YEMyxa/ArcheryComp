@@ -17,20 +17,39 @@ ArcheryComp Profile
 {% block content %}
 
 <div class="container">
-    <h3>Пользователь: {{ user_.username }}</h3>
-    <p>ФИО: {{ user_.last_name }} {{ user_.first_name }} {{ user_.profile.second_name }}</p>
-    <p> Уровень: {{ user_.profile.rank }}</p>
-    <!--Тут другие поля на усмотрение дизайнера ... -->
+    <div class="row mt-2">
+        <h3>Пользователь: {{ user_.username }}</h3>
+    </div>
+    <div class="row">
+        <div class="row justify-content-start mx-1 mt-2">
+            <div class="col-xl-4 col-md-7 col-sm-12">
+                ФИО: {{ user_.last_name }} {{ user_.first_name }} {{ user_.profile.second_name }}
+            </div>
+        </div>
+        <div class="row justify-content-start mx-1 mt-2">
+            <div class="col-xl-4 col-md-7 col-sm-12">
+                Уровень: {{ user_.profile.rank }}
+            </div>
+        </div>
+    </div>
+    
+    <!--username - id спорстмена ... -->
+    <div class="row mx-1 mt-2">
+        <div class="col-xl-4 col-md-7 col-sm-12">
+            <a href="{% url 'participations:user_part' user_.username %}" class="confirm-btn">Участия пользователя</a>
+        </div>
+    </div>
+    {% if user.is_authenticated and user == user_ %}
+    <div class="row mx-1 mt-2">
+        <div class="col-xl-4 col-md-7 col-sm-12">
+            <a href="{% url 'users:profile' %}" class="confirm-btn">Редактировать профиль</a>
+        </div>
+    </div>
+    {% endif %}
+    
+    
 </div>
-<!--username - id спорстмена ... -->
-<form action="{% url 'participations:user_part' user_.username %}">
-    <button type="submit">Участия пользователя</button>
-</form>
-{% if user.is_authenticated and user == user_ %}
-<form action="{% url 'users:profile' %}">
-    <button type="submit">Редактировать профиль</button>
-</form>
-{% endif %}
+
 
 
 {% endblock content %}
